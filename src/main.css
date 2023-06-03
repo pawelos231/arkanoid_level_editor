@@ -5,3 +5,7 @@
     height: 100vh;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
+
+.wrapper{
+    display: flex;
+}
