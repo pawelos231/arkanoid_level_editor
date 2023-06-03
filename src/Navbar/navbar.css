@@ -1,0 +1,37 @@
+.navbar{
+    display: flex;
+    flex-direction: column;
+    background-color: #03001C;
+    width: 20%;
+    justify-self: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.navbar > h1 {
+    text-align: center;
+    color: #B6EADA;
+    width: 100%;
+    flex-basis: 10%;
+}
+
+
+.kolor {
+    background-color: red;
+    width: 90%;
+    flex-basis: 40%;
+    color: white;
+    display: flex;
+    justify-content: center;
+}
+
+.grid {
+    display: flex;
+    color: white;
+    justify-content: center;
+    width: 90%;
+    flex-basis: 40%;
+    background-color: red;
+}
+
+
