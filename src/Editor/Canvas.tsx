@@ -1,28 +1,52 @@
-import React, { useRef, useEffect, RefObject } from "react";
+import { useRef, useEffect, RefObject } from "react";
+import { memo } from "react";
+import { generateBrickGrid } from "../helpers/generateBrickGrid";
+import { Brick } from "../helpers/generateBrickGrid";
+import { handleCanvasClick } from "../helpers/clickBrick";
 
 interface CanvasProps {
   width: number;
   height: number;
+  rowsNumber: number;
+  columnsNumber: number;
 }
 
-const Canvas = ({ width, height }: CanvasProps) => {
-  const canvasRef: RefObject<HTMLCanvasElement> = useRef(null);
+const Canvas = memo(
+  ({ width, height, rowsNumber, columnsNumber }: CanvasProps) => {
+    const canvasRef: RefObject<HTMLCanvasElement> = useRef(null);
 
-  useEffect(() => {
-    const canvas: HTMLCanvasElement | null = canvasRef.current;
-    if (!canvas) return;
+    useEffect(() => {
+      const canvas: HTMLCanvasElement | null = canvasRef.current;
+      if (!canvas) return;
 
-    const context: CanvasRenderingContext2D | null = canvas.getContext("2d");
-    if (!context) return;
+      const context: CanvasRenderingContext2D | null = canvas.getContext("2d");
+      if (!context) return;
 
-    context.fillRect(500, 500, 40, 100);
+      const bricks: Brick[] = generateBrickGrid(
+        canvas,
+        columnsNumber,
+        rowsNumber,
+        context
+      );
 
-    return () => {
-      // Clean up event listeners if necessary
-    };
-  }, []);
+      bricks.forEach((brick) => {
+        context.fillStyle = "blue";
+        context.strokeRect(brick.x, brick.y, brick.width, brick.height);
+      });
 
-  return <canvas ref={canvasRef} width={width} height={height} />;
-};
+      canvas.addEventListener("click", (e) =>
+        handleCanvasClick(e, bricks, canvas)
+      );
+
+      return () => {
+        // Clean up event listeners if necessary
+      };
+    }, [rowsNumber, columnsNumber]);
+
+    return (
+      <canvas className="main" ref={canvasRef} width={width} height={height} />
+    );
+  }
+);
 
 export default Canvas;

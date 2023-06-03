@@ -34,4 +34,8 @@
     background-color: red;
 }
 
+.grid > input {
+    height: 20%;
+    font-size: 20px;
+}
 
