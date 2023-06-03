@@ -19,7 +19,7 @@
 .kolor {
     background-color: red;
     width: 90%;
-    flex-basis: 40%;
+    flex-basis: 50%;
     color: white;
     display: flex;
     justify-content: center;
@@ -28,14 +28,23 @@
 .grid {
     display: flex;
     color: white;
-    justify-content: center;
     width: 90%;
-    flex-basis: 40%;
+    flex-basis: 30%;
     background-color: red;
+    display: flex;
+    flex-direction: column;
 }
 
-.grid > input {
-    height: 20%;
+.grid > div {
+    height: 25%;
+    margin: 10px;
     font-size: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.grid > div > input {
+ flex-grow: 1;
+ font-size: 20px;
 }
 

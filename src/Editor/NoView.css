@@ -1,0 +1,23 @@
+.not-found {
+    text-align: center;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+    flex-grow: 1;
+    align-items: center;
+  }
+  
+  .not-found__heading {
+    font-size: 32px;
+    flex-basis: 5%;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .not-found__message {
+    font-size: 18px;
+    flex-basis: 5%;
+    color: #777;
+  }

@@ -24,25 +24,30 @@ const Navabar = memo(
       const value = parseInt(event.target.value);
       changeRowsCount(value);
     };
-    console.log(rows, columns);
 
     return (
       <>
         <nav className="navbar">
           <h1>Level editor Menu</h1>
           <div className="grid">
-            <input
-              type="number"
-              value={columns}
-              onChange={handleColumnCountChange}
-              max={MAX_COLUMNS_COUNT}
-            />
-            <input
-              type="number"
-              value={rows}
-              onChange={handleRowCountChange}
-              max={MAX_ROWS_COUNT}
-            />
+            <div>
+              <p>columns</p>
+              <input
+                type="number"
+                value={columns}
+                onChange={handleColumnCountChange}
+                max={MAX_COLUMNS_COUNT}
+              />
+            </div>
+            <div>
+              <p>rows</p>
+              <input
+                type="number"
+                value={rows}
+                onChange={handleRowCountChange}
+                max={MAX_ROWS_COUNT}
+              />
+            </div>
           </div>{" "}
           <div className="kolor">
             <p>Kolor cegły</p>

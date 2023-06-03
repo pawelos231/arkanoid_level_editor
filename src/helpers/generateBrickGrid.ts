@@ -5,6 +5,7 @@ export type Brick = {
     y: number;
     width: number;
     height: number;
+    color: string
 }
 
 export const generateBrickGrid = (canvas: HTMLCanvasElement , columnsNumber: number, rowsNumber: number, context: CanvasRenderingContext2D) => {
@@ -16,7 +17,7 @@ export const generateBrickGrid = (canvas: HTMLCanvasElement , columnsNumber: num
 
     context.clearRect(0, 0, canvas.width, canvas.height);
 
-    context.strokeStyle = "#111111";
+    const color = "#111"
     context.lineWidth = 1;
 
     for (let i = 0; i < columnsNumber; i++) {
@@ -27,6 +28,7 @@ export const generateBrickGrid = (canvas: HTMLCanvasElement , columnsNumber: num
             y: j * brickHeight,
             width: brickWidth,
             height: brickHeight,
+            color: color
         });
       }
     }
