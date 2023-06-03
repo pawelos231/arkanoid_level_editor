@@ -1,6 +1,6 @@
 import { useRef, useEffect, RefObject } from "react";
 import { memo } from "react";
-import { generateBrickGrid } from "../helpers/generateBrickGrid";
+import { drawBricks, generateBrickGrid } from "../helpers/generateBrickGrid";
 import { Brick } from "../helpers/generateBrickGrid";
 import { handleCanvasClick } from "../helpers/clickBrick";
 import {
@@ -15,19 +15,29 @@ interface CanvasProps {
   height: number;
   rowsNumber: number;
   columnsNumber: number;
+  brickColor: string;
 }
 
 const Canvas = memo(
-  ({ width, height, rowsNumber, columnsNumber }: CanvasProps) => {
+  ({ width, height, rowsNumber, columnsNumber, brickColor }: CanvasProps) => {
     const canvasRef: RefObject<HTMLCanvasElement> = useRef(null);
 
+    const OUT_OF_BOUNDS =
+      rowsNumber > MAX_ROWS_COUNT ||
+      columnsNumber > MAX_COLUMNS_COUNT ||
+      rowsNumber < 0 ||
+      columnsNumber < 0;
+
     useEffect(() => {
-      if (
-        rowsNumber > MAX_ROWS_COUNT ||
-        columnsNumber > MAX_COLUMNS_COUNT ||
-        rowsNumber < 0 ||
-        columnsNumber < 0
-      ) {
+      const handleResize = (
+        canvas: HTMLCanvasElement,
+        context: CanvasRenderingContext2D
+      ) => {
+        const bricks = generateBrickGrid(canvas, columnsNumber, rowsNumber);
+        drawBricks(context, canvas, bricks);
+      };
+
+      if (OUT_OF_BOUNDS) {
         console.warn(OUT_OF_RANGE);
         return;
       }
@@ -41,25 +51,24 @@ const Canvas = memo(
       const bricks: Brick[] = generateBrickGrid(
         canvas,
         columnsNumber,
-        rowsNumber,
-        context
+        rowsNumber
       );
 
-      bricks.forEach((brick) => {
-        context.fillStyle = "#fff";
-        context.strokeStyle = "#000";
-        context.strokeRect(brick.x, brick.y, brick.width, brick.height);
-        context.fillRect(brick.x, brick.y, brick.width, brick.height);
-      });
+      const resizeFunc = () => handleResize(canvas, context);
 
-      canvas.addEventListener("click", (e) =>
-        handleCanvasClick(e, bricks, canvas)
-      );
+      window.addEventListener("resize", resizeFunc);
+
+      const handleClick = (e: MouseEvent) =>
+        handleCanvasClick(e, bricks, canvas, brickColor, context);
+
+      canvas.addEventListener("click", handleClick);
+
+      drawBricks(context, canvas, bricks);
 
       return () => {
-        // Clean up event listeners if necessary
+        //
       };
-    }, [rowsNumber, columnsNumber]);
+    }, [rowsNumber, columnsNumber, brickColor, OUT_OF_BOUNDS]);
 
     const rowBool = Boolean(rowsNumber);
     const columnBool = Boolean(columnsNumber);

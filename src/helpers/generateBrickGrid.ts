@@ -8,17 +8,12 @@ export type Brick = {
     color: string
 }
 
-export const generateBrickGrid = (canvas: HTMLCanvasElement , columnsNumber: number, rowsNumber: number, context: CanvasRenderingContext2D) => {
+export const generateBrickGrid = (canvas: HTMLCanvasElement , columnsNumber: number, rowsNumber: number) => {
 
-    const brickGrid = [];
+    const brickGrid: Brick[] = [];
 
     const brickWidth = canvas.width / columnsNumber;
     const brickHeight = calculateBrickHeight(canvas.height, rowsNumber);
-
-    context.clearRect(0, 0, canvas.width, canvas.height);
-
-    const color = "#111"
-    context.lineWidth = 1;
 
     for (let i = 0; i < columnsNumber; i++) {
       for (let j = 0; j < rowsNumber; j++) {
@@ -28,11 +23,24 @@ export const generateBrickGrid = (canvas: HTMLCanvasElement , columnsNumber: num
             y: j * brickHeight,
             width: brickWidth,
             height: brickHeight,
-            color: color
+            color: "#fff"
         });
       }
     }
 
     return brickGrid
 
+}
+
+export const drawBricks = (context: CanvasRenderingContext2D, canvas: HTMLCanvasElement, bricks: Brick[]) => {
+
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.lineWidth = 1;
+
+    bricks.forEach((brick: Brick) => {
+        context.fillStyle = brick.color;
+        context.strokeStyle = "#000";
+        context.strokeRect(brick.x, brick.y, brick.width, brick.height);
+        context.fillRect(brick.x, brick.y, brick.width, brick.height);
+      });
 }

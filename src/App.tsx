@@ -12,6 +12,7 @@ function App() {
   const [columnsCount, setColumnsCount] = useState<number>(
     DEFAULT_COLUMNS_COUNT
   );
+  const [brickColor, setBrick] = useState<string>("");
 
   return (
     <div className="wrapper">
@@ -23,8 +24,13 @@ function App() {
         )}
         rows={rowsCount}
         columns={columnsCount}
+        setBrick={useCallback((brick: string) => setBrick(brick), [])}
       />
-      <Editor columnsCount={columnsCount} rowsCount={rowsCount} />
+      <Editor
+        columnsCount={columnsCount}
+        rowsCount={rowsCount}
+        brickColor={brickColor}
+      />
     </div>
   );
 }
