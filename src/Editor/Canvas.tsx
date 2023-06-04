@@ -1,4 +1,4 @@
-import { useRef, useEffect, RefObject } from "react";
+import { useRef, useEffect, RefObject, useState } from "react";
 import { memo } from "react";
 import { drawBricks, generateBrickGrid } from "../helpers/generateBrickGrid";
 import { Brick } from "../helpers/generateBrickGrid";
@@ -21,6 +21,7 @@ interface CanvasProps {
 const Canvas = memo(
   ({ width, height, rowsNumber, columnsNumber, brickColor }: CanvasProps) => {
     const canvasRef: RefObject<HTMLCanvasElement> = useRef(null);
+    const [bricks, setBricks] = useState<Brick[]>([]);
 
     const OUT_OF_BOUNDS =
       rowsNumber > MAX_ROWS_COUNT ||
@@ -29,14 +30,6 @@ const Canvas = memo(
       columnsNumber < 0;
 
     useEffect(() => {
-      const handleResize = (
-        canvas: HTMLCanvasElement,
-        context: CanvasRenderingContext2D
-      ) => {
-        const bricks = generateBrickGrid(canvas, columnsNumber, rowsNumber);
-        drawBricks(context, canvas, bricks);
-      };
-
       if (OUT_OF_BOUNDS) {
         console.warn(OUT_OF_RANGE);
         return;
@@ -48,27 +41,43 @@ const Canvas = memo(
       const context: CanvasRenderingContext2D | null = canvas.getContext("2d");
       if (!context) return;
 
-      const bricks: Brick[] = generateBrickGrid(
+      const generatedBricks: Brick[] = generateBrickGrid(
         canvas,
         columnsNumber,
         rowsNumber
       );
 
-      const resizeFunc = () => handleResize(canvas, context);
+      setBricks(generatedBricks);
+      drawBricks(context, canvas, generatedBricks);
 
-      window.addEventListener("resize", resizeFunc);
+      const handleResize = () => {
+        const resizedBricks: Brick[] = generateBrickGrid(
+          canvas,
+          columnsNumber,
+          rowsNumber
+        );
+        setBricks(resizedBricks);
+        drawBricks(context, canvas, resizedBricks);
+      };
 
-      const handleClick = (e: MouseEvent) =>
-        handleCanvasClick(e, bricks, canvas, brickColor, context);
-
-      canvas.addEventListener("click", handleClick);
-
-      drawBricks(context, canvas, bricks);
+      window.addEventListener("resize", handleResize);
 
       return () => {
-        //
+        window.removeEventListener("resize", handleResize);
       };
-    }, [rowsNumber, columnsNumber, brickColor, OUT_OF_BOUNDS]);
+    }, [rowsNumber, columnsNumber, OUT_OF_BOUNDS]);
+
+    const handleClick = (e: any) => {
+      const canvas: HTMLCanvasElement | null = canvasRef.current;
+      if (!canvas) return;
+      const context: CanvasRenderingContext2D | null = canvas.getContext("2d");
+      if (!context) return;
+
+      handleCanvasClick(e, bricks, canvas, brickColor, context);
+
+      setBricks(bricks);
+      drawBricks(context, canvas, bricks);
+    };
 
     const rowBool = Boolean(rowsNumber);
     const columnBool = Boolean(columnsNumber);
@@ -78,7 +87,13 @@ const Canvas = memo(
     }
 
     return (
-      <canvas className="main" ref={canvasRef} width={width} height={height} />
+      <canvas
+        className="main"
+        ref={canvasRef}
+        width={width}
+        height={height}
+        onClick={handleClick}
+      />
     );
   }
 );
