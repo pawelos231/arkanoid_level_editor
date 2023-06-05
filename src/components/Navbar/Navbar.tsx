@@ -1,8 +1,11 @@
 import "./navbar.css";
 import { memo } from "react";
-import { MAX_COLUMNS_COUNT, MAX_ROWS_COUNT } from "../constants/defaultValues";
-import { bricksData } from "../helpers/brickData";
-import { BrickData } from "../helpers/brickData";
+import {
+  MAX_COLUMNS_COUNT,
+  MAX_ROWS_COUNT,
+} from "../../constants/defaultValues";
+import { bricksData } from "../../helpers/brickData";
+import { BrickData } from "../../helpers/brickData";
 
 type Props = {
   changeRowsCount: (rows: number) => void;

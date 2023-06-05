@@ -1,13 +1,13 @@
 import { useRef, useEffect, RefObject, useState } from "react";
 import { memo } from "react";
-import { drawBricks, generateBrickGrid } from "../helpers/generateBrickGrid";
-import { Brick } from "../helpers/generateBrickGrid";
-import { handleCanvasClick } from "../helpers/clickBrick";
+import { drawBricks, generateBrickGrid } from "../../helpers/generateBrickGrid";
+import { Brick } from "../../helpers/generateBrickGrid";
+import { handleCanvasClick } from "../../helpers/clickBrick";
 import {
   MAX_COLUMNS_COUNT,
   MAX_ROWS_COUNT,
   OUT_OF_RANGE,
-} from "../constants/defaultValues";
+} from "../../constants/defaultValues";
 import NoView from "./NoView";
 
 interface CanvasProps {
@@ -67,16 +67,22 @@ const Canvas = memo(
       };
     }, [rowsNumber, columnsNumber, OUT_OF_BOUNDS]);
 
-    const handleClick = (e: any) => {
+    const handleClick = (
+      e: React.MouseEvent<HTMLCanvasElement, MouseEvent>
+    ): void => {
       const canvas: HTMLCanvasElement | null = canvasRef.current;
       if (!canvas) return;
       const context: CanvasRenderingContext2D | null = canvas.getContext("2d");
       if (!context) return;
 
-      handleCanvasClick(e, bricks, canvas, brickColor, context);
-
-      setBricks(bricks);
-      drawBricks(context, canvas, bricks);
+      const newBricks: Brick[] = handleCanvasClick(
+        e,
+        JSON.parse(JSON.stringify(bricks)),
+        canvas,
+        brickColor
+      );
+      setBricks(newBricks);
+      drawBricks(context, canvas, newBricks);
     };
 
     const rowBool = Boolean(rowsNumber);

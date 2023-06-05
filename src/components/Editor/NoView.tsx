@@ -1,5 +1,5 @@
 import "./NoView.css";
-import { OUT_OF_RANGE } from "../constants/defaultValues";
+import { OUT_OF_RANGE } from "../../constants/defaultValues";
 
 const NoView = () => {
   return (

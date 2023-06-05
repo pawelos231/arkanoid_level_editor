@@ -1,12 +1,10 @@
   import { Brick } from "./generateBrickGrid";
-  import { drawBricks } from "./generateBrickGrid";
 export function handleCanvasClick(
-    event: MouseEvent,
+    event:  React.MouseEvent<HTMLCanvasElement, MouseEvent>,
     bricks: Brick[],
     canvas: HTMLCanvasElement,
     brickColor: string,
-    context: CanvasRenderingContext2D
-    ) {
+    ): Brick[] {
     const canvasRect = canvas.getBoundingClientRect();
     const mouseX = event.clientX - canvasRect.left;
     const mouseY = event.clientY - canvasRect.top;
@@ -22,5 +20,5 @@ export function handleCanvasClick(
             console.log(brick)
         }
     });
-    drawBricks(context, canvas, bricks)
+    return bricks
 }

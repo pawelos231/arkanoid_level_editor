@@ -1,6 +1,6 @@
 "react";
-import Navabar from "./Navbar/Navbar";
-import Editor from "./Editor/MainEditor";
+import Navabar from "./components/Navbar/Navbar";
+import Editor from "./components/Editor/MainEditor";
 import { useState, useCallback } from "react";
 import {
   DEFAULT_ROWS_COUNT,
