@@ -11,12 +11,22 @@ type Props = {
   changeRowsCount: (rows: number) => void;
   changeColumnCount: (columns: number) => void;
   setBrick: (brick: string) => void;
+  handleGridOpen: (gridState: boolean) => void;
   rows: number;
+  grid: boolean;
   columns: number;
 };
 
 const Navabar = memo(
-  ({ changeRowsCount, changeColumnCount, rows, columns, setBrick }: Props) => {
+  ({
+    changeRowsCount,
+    changeColumnCount,
+    rows,
+    columns,
+    setBrick,
+    handleGridOpen,
+    grid,
+  }: Props) => {
     const handleColumnCountChange = (
       event: React.ChangeEvent<HTMLInputElement>
     ) => {
@@ -57,6 +67,13 @@ const Navabar = memo(
                 onChange={handleRowCountChange}
                 max={MAX_ROWS_COUNT}
               />
+            </div>
+            <div className="checkers">
+              <div>
+                <p>{grid ? `delete grid` : `set grid`}</p>{" "}
+                <input onChange={() => handleGridOpen(!grid)} type="checkbox" />
+              </div>
+              <button className="delete">DELETE</button>
             </div>
           </div>{" "}
           <div className="kolor">

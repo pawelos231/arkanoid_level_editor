@@ -5,9 +5,10 @@ type Props = {
   columnsCount: number;
   rowsCount: number;
   brickColor: string;
+  grid: boolean;
 };
 
-const Editor = ({ columnsCount, rowsCount, brickColor }: Props) => {
+const Editor = ({ columnsCount, rowsCount, brickColor, grid }: Props) => {
   return (
     <Canvas
       width={window.innerWidth * 0.8}
@@ -15,6 +16,7 @@ const Editor = ({ columnsCount, rowsCount, brickColor }: Props) => {
       columnsNumber={columnsCount}
       rowsNumber={rowsCount}
       brickColor={brickColor}
+      grid={grid}
     />
   );
 };

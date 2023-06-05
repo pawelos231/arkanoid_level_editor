@@ -1,4 +1,4 @@
-import { useRef, useEffect, RefObject, useState } from "react";
+import { useRef, useEffect, RefObject, useState, useCallback } from "react";
 import { memo } from "react";
 import { drawBricks, generateBrickGrid } from "../../helpers/generateBrickGrid";
 import { Brick } from "../../helpers/generateBrickGrid";
@@ -16,12 +16,22 @@ interface CanvasProps {
   rowsNumber: number;
   columnsNumber: number;
   brickColor: string;
+  grid: boolean;
 }
 
 const Canvas = memo(
-  ({ width, height, rowsNumber, columnsNumber, brickColor }: CanvasProps) => {
+  ({
+    width,
+    height,
+    rowsNumber,
+    columnsNumber,
+    brickColor,
+    grid,
+  }: CanvasProps) => {
     const canvasRef: RefObject<HTMLCanvasElement> = useRef(null);
     const [bricks, setBricks] = useState<Brick[]>([]);
+    const [canvas, setCanvas] = useState<HTMLCanvasElement>();
+    const [context, setContext] = useState<CanvasRenderingContext2D>();
 
     const OUT_OF_BOUNDS =
       rowsNumber > MAX_ROWS_COUNT ||
@@ -37,9 +47,11 @@ const Canvas = memo(
 
       const canvas: HTMLCanvasElement | null = canvasRef.current;
       if (!canvas) return;
+      setCanvas(canvas);
 
       const context: CanvasRenderingContext2D | null = canvas.getContext("2d");
       if (!context) return;
+      setContext(context);
 
       const generatedBricks: Brick[] = generateBrickGrid(
         canvas,
@@ -67,28 +79,35 @@ const Canvas = memo(
       };
     }, [rowsNumber, columnsNumber, OUT_OF_BOUNDS]);
 
-    const handleClick = (
-      e: React.MouseEvent<HTMLCanvasElement, MouseEvent>
-    ): void => {
-      const canvas: HTMLCanvasElement | null = canvasRef.current;
-      if (!canvas) return;
-      const context: CanvasRenderingContext2D | null = canvas.getContext("2d");
-      if (!context) return;
+    useEffect(() => {
+      if (!context || !canvas) return;
+      drawBricks(context, canvas, bricks, grid);
+    }, [grid, bricks, context, canvas]);
 
-      const newBricks: Brick[] = handleCanvasClick(
-        e,
-        JSON.parse(JSON.stringify(bricks)),
-        canvas,
-        brickColor
-      );
-      setBricks(newBricks);
-      drawBricks(context, canvas, newBricks);
-    };
+    type ClickReactEvent = React.MouseEvent<HTMLCanvasElement, MouseEvent>;
 
-    const rowBool = Boolean(rowsNumber);
-    const columnBool = Boolean(columnsNumber);
+    const handleClick = useCallback(
+      (e: ClickReactEvent): void => {
+        const canvas: HTMLCanvasElement | null = canvasRef.current;
+        if (!canvas) return;
 
-    if (!rowBool || !columnBool || rowsNumber < 0 || columnsNumber < 0) {
+        const context: CanvasRenderingContext2D | null =
+          canvas.getContext("2d");
+
+        if (!context) return;
+
+        const newBricks: Brick[] = handleCanvasClick(
+          e,
+          JSON.parse(JSON.stringify(bricks)),
+          canvas,
+          brickColor
+        );
+        setBricks(newBricks);
+      },
+      [bricks, canvasRef, brickColor]
+    );
+
+    if (rowsNumber <= 0 || columnsNumber <= 0) {
       return <NoView />;
     }
 

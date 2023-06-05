@@ -1,4 +1,5 @@
 import { calculateBrickHeight } from "./calculateBrickHeight";
+import { DEFAULT_BRICK_COLOR } from "../constants/defaultValues";
 
 export type Brick = {
     x: number;
@@ -23,7 +24,7 @@ export const generateBrickGrid = (canvas: HTMLCanvasElement , columnsNumber: num
             y: j * brickHeight,
             width: brickWidth,
             height: brickHeight,
-            color: "#fff"
+            color: DEFAULT_BRICK_COLOR
         });
       }
     }
@@ -32,15 +33,17 @@ export const generateBrickGrid = (canvas: HTMLCanvasElement , columnsNumber: num
 
 }
 
-export const drawBricks = (context: CanvasRenderingContext2D, canvas: HTMLCanvasElement, bricks: Brick[]) => {
+export const drawBricks = (context: CanvasRenderingContext2D, canvas: HTMLCanvasElement, bricks: Brick[], grid = true) => {
 
     context.clearRect(0, 0, canvas.width, canvas.height);
     context.lineWidth = 1;
-
+    console.log("drawCall")
     bricks.forEach((brick: Brick) => {
         context.fillStyle = brick.color;
-        context.strokeStyle = "#000";
-        context.strokeRect(brick.x, brick.y, brick.width, brick.height);
+        if(grid){
+          context.strokeStyle = "#000";
+          context.strokeRect(brick.x, brick.y, brick.width, brick.height);
+        }
         context.fillRect(brick.x, brick.y, brick.width, brick.height);
       });
 }

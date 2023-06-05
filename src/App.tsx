@@ -13,6 +13,7 @@ function App() {
     DEFAULT_COLUMNS_COUNT
   );
   const [brickColor, setBrick] = useState<string>("");
+  const [grid, handleGridOpen] = useState<boolean>(true);
 
   return (
     <div className="wrapper">
@@ -24,12 +25,18 @@ function App() {
         )}
         rows={rowsCount}
         columns={columnsCount}
+        grid={grid}
         setBrick={useCallback((brick: string) => setBrick(brick), [])}
+        handleGridOpen={useCallback(
+          (gridState: boolean) => handleGridOpen(gridState),
+          []
+        )}
       />
       <Editor
         columnsCount={columnsCount}
         rowsCount={rowsCount}
         brickColor={brickColor}
+        grid={grid}
       />
     </div>
   );
