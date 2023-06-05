@@ -18,6 +18,11 @@ interface CanvasProps {
   grid: boolean;
 }
 
+interface CanvasContextState {
+  canvas: HTMLCanvasElement | null;
+  context: CanvasRenderingContext2D | null;
+}
+
 const Canvas = ({
   width,
   height,
@@ -28,12 +33,12 @@ const Canvas = ({
 }: CanvasProps) => {
   const canvasRef: RefObject<HTMLCanvasElement> = useRef(null);
   const [bricks, setBricks] = useState<Brick[]>([]);
-  const [canvasContext, setCanvasContext] = useState<{
-    canvas: HTMLCanvasElement | null;
-    context: CanvasRenderingContext2D | null;
-  }>({ canvas: null, context: null });
+  const [canvasContext, setCanvasContext] = useState<CanvasContextState>({
+    canvas: null,
+    context: null,
+  });
 
-  const OUT_OF_BOUNDS =
+  const OUT_OF_BOUNDS: boolean =
     rowsNumber > MAX_ROWS_COUNT ||
     columnsNumber > MAX_COLUMNS_COUNT ||
     rowsNumber < 0 ||

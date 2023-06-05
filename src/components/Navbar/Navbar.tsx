@@ -1,5 +1,4 @@
 import "./navbar.css";
-import { memo } from "react";
 import {
   MAX_COLUMNS_COUNT,
   MAX_ROWS_COUNT,
@@ -17,84 +16,80 @@ type Props = {
   columns: number;
 };
 
-const Navabar = memo(
-  ({
-    changeRowsCount,
-    changeColumnCount,
-    rows,
-    columns,
-    setBrick,
-    handleGridOpen,
-    grid,
-  }: Props) => {
-    const handleColumnCountChange = (
-      event: React.ChangeEvent<HTMLInputElement>
-    ) => {
-      const value = parseInt(event.target.value);
-      changeColumnCount(value);
-    };
+const Navbar = ({
+  changeRowsCount,
+  changeColumnCount,
+  rows,
+  columns,
+  setBrick,
+  handleGridOpen,
+  grid,
+}: Props) => {
+  const handleColumnCountInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const value = parseInt(event.target.value);
+    changeColumnCount(value);
+  };
 
-    const handleRowCountChange = (
-      event: React.ChangeEvent<HTMLInputElement>
-    ) => {
-      const value = parseInt(event.target.value);
-      changeRowsCount(value);
-    };
+  const handleRowCountInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const value = parseInt(event.target.value);
+    changeRowsCount(value);
+  };
 
-    const handleBrickChoose = (brick: BrickData) => {
-      setBrick(brick.color);
-    };
+  const handleBrickChoose = (brick: BrickData) => {
+    setBrick(brick.color);
+  };
 
-    return (
-      <>
-        <nav className="navbar">
-          <h1>Level editor Menu</h1>
-          <div className="grid">
-            <div>
-              <p>columns</p>
-              <input
-                type="number"
-                value={columns}
-                onChange={handleColumnCountChange}
-                max={MAX_COLUMNS_COUNT}
-              />
-            </div>
-            <div>
-              <p>rows</p>
-              <input
-                type="number"
-                value={rows}
-                onChange={handleRowCountChange}
-                max={MAX_ROWS_COUNT}
-              />
-            </div>
-            <div className="checkers">
-              <div>
-                <p>{grid ? `delete grid` : `set grid`}</p>{" "}
-                <input onChange={() => handleGridOpen(!grid)} type="checkbox" />
-              </div>
-              <button className="delete">DELETE</button>
-            </div>
-          </div>{" "}
-          <div className="kolor">
-            <p>Brick color</p>
-            <div className="brickContainer">
-              {bricksData().map((brick) => {
-                return (
-                  <div
-                    key={brick.color}
-                    onClick={() => handleBrickChoose(brick)}
-                    className="brick"
-                    style={{ backgroundColor: brick.color }}
-                  ></div>
-                );
-              })}
-            </div>
+  const renderBricks = () => {
+    return bricksData().map((brick) => (
+      <div
+        key={brick.color}
+        onClick={() => handleBrickChoose(brick)}
+        className="brick"
+        style={{ backgroundColor: brick.color }}
+      ></div>
+    ));
+  };
+
+  return (
+    <nav className="navbar">
+      <h1>Level editor Menu</h1>
+      <div className="grid">
+        <div>
+          <p>Columns</p>
+          <input
+            type="number"
+            value={columns}
+            onChange={handleColumnCountInputChange}
+            max={MAX_COLUMNS_COUNT}
+          />
+        </div>
+        <div>
+          <p>Rows</p>
+          <input
+            type="number"
+            value={rows}
+            onChange={handleRowCountInputChange}
+            max={MAX_ROWS_COUNT}
+          />
+        </div>
+        <div className="checkers">
+          <div>
+            <p>{grid ? "Delete grid" : "Set grid"}</p>{" "}
+            <input onChange={() => handleGridOpen(!grid)} type="checkbox" />
           </div>
-        </nav>
-      </>
-    );
-  }
-);
+          <button className="delete">DELETE</button>
+        </div>
+      </div>
+      <div className="kolor">
+        <p>Brick color</p>
+        <div className="brickContainer">{renderBricks()}</div>
+      </div>
+    </nav>
+  );
+};
 
-export default Navabar;
+export default Navbar;
