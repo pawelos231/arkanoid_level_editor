@@ -5,6 +5,8 @@ import {
 } from "../../constants/defaultValues";
 import { bricksData } from "../../helpers/brickData";
 import { BrickData } from "../../helpers/brickData";
+import { useState, useEffect, useCallback, Suspense, lazy } from "react";
+const Info = lazy(() => import("../InfoModal/Info"));
 
 type Props = {
   changeRowsCount: (rows: number) => void;
@@ -25,6 +27,9 @@ const Navbar = ({
   handleGridOpen,
   grid,
 }: Props) => {
+  const [modal, handleOpenModal] = useState<boolean>(false);
+  const [mounted, setMounted] = useState<boolean>(false);
+
   const handleColumnCountInputChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -39,11 +44,18 @@ const Navbar = ({
     changeRowsCount(value);
   };
 
-  const handleBrickChoose = (brick: BrickData) => {
-    setBrick(brick.color);
-  };
+  const handleBrickChoose = useCallback(
+    (brick: BrickData) => {
+      setBrick(brick.color);
+    },
+    [setBrick]
+  );
 
-  const renderBricks = () => {
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const renderBricks = useCallback(() => {
     return bricksData().map((brick) => (
       <div
         key={brick.color}
@@ -52,7 +64,9 @@ const Navbar = ({
         style={{ backgroundColor: brick.color }}
       ></div>
     ));
-  };
+  }, [handleBrickChoose]);
+
+  if (!mounted) return null;
 
   return (
     <nav className="navbar">
@@ -78,16 +92,24 @@ const Navbar = ({
         </div>
         <div className="checkers">
           <div>
-            <p>{grid ? "Delete grid" : "Set grid"}</p>{" "}
+            <p>Delete grid</p>{" "}
             <input onChange={() => handleGridOpen(!grid)} type="checkbox" />
           </div>
-          <button className="delete">DELETE</button>
+          <button className="delete">DELETE PROGRESS</button>
         </div>
       </div>
       <div className="kolor">
-        <p>Brick color</p>
+        <div className="brickColor">
+          <p>Brick Color</p>
+          <p onClick={() => handleOpenModal(!modal)}>info</p>
+        </div>
         <div className="brickContainer">{renderBricks()}</div>
       </div>
+      {modal ? (
+        <Suspense fallback={<div>Loading...</div>}>
+          <Info renderBricks={renderBricks} />
+        </Suspense>
+      ) : null}
     </nav>
   );
 };

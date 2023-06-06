@@ -1,0 +1,17 @@
+.info-modal{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    backdrop-filter: blur(5px);
+}
+
+.close{
+    font-size: 60px;
+    margin-top: 20px;
+    margin-left: 20px;
+    position: absolute;
+    color: white;
+}
+

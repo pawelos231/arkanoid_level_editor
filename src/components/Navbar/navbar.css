@@ -15,6 +15,19 @@
     flex-basis: 10%;
 }
 
+.kolor > .brickColor {
+    flex-basis: 20%;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.kolor > .brickColor > p{
+    flex-basis: 20%;
+    height: 20px;
+    flex-basis: 30%;
+}
 
 .kolor {
     width: 90%;
