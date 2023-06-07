@@ -9,12 +9,34 @@ export type Brick = {
     color: string
 }
 
-export const generateBrickGrid = (canvas: HTMLCanvasElement , columnsNumber: number, rowsNumber: number) => {
+export const generateBrickGrid = (canvas: HTMLCanvasElement , columnsNumber: number, rowsNumber: number, bricks: Brick[] = []) => {
 
+
+    const isBricksProvided = Boolean(bricks.length)
+    
     const brickGrid: Brick[] = [];
 
     const brickWidth = canvas.width / columnsNumber;
     const brickHeight = calculateBrickHeight(canvas.height, rowsNumber);
+
+
+    if(isBricksProvided) {
+      
+      bricks.forEach((item) => {
+        brickGrid.push({
+          x: item.x,
+          y: item.y,
+          width: brickWidth,
+          height: brickHeight,
+          color: item.color
+        })
+      })
+
+      return brickGrid
+    }
+
+
+
 
     for (let i = 0; i < columnsNumber; i++) {
       for (let j = 0; j < rowsNumber; j++) {

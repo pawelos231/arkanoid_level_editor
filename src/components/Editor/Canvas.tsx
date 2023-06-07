@@ -38,14 +38,14 @@ const Canvas = ({
     context: null,
   });
 
-  const OUT_OF_BOUNDS: boolean =
+  const isOutOfBounds =
     rowsNumber > MAX_ROWS_COUNT ||
     columnsNumber > MAX_COLUMNS_COUNT ||
     rowsNumber <= 0 ||
     columnsNumber <= 0;
 
   useEffect(() => {
-    if (OUT_OF_BOUNDS) {
+    if (isOutOfBounds) {
       console.warn(OUT_OF_RANGE);
       return;
     }
@@ -64,24 +64,8 @@ const Canvas = ({
     setBricks(generatedBricks);
     drawBricks(context, canvas, generatedBricks);
 
-    const handleResize = () => {
-      const resizedBricks: Brick[] = generateBrickGrid(
-        canvas,
-        columnsNumber,
-        rowsNumber
-      );
-      setBricks(resizedBricks);
-      drawBricks(context, canvas, resizedBricks);
-    };
-
-    window.addEventListener("resize", handleResize);
-
     setCanvasContext({ canvas, context });
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [rowsNumber, columnsNumber, OUT_OF_BOUNDS]);
+  }, [rowsNumber, columnsNumber, isOutOfBounds]);
 
   useEffect(() => {
     const { context, canvas } = canvasContext;
@@ -89,10 +73,31 @@ const Canvas = ({
     drawBricks(context, canvas, bricks, grid);
   }, [grid, bricks, canvasContext]);
 
-  type ClickReactEvent = React.MouseEvent<HTMLCanvasElement, MouseEvent>;
+  useEffect(() => {
+    const handleResize = () => {
+      if (!canvasContext.canvas || !canvasContext.context) {
+        throw new Error("canvas does not exist");
+      }
+
+      const resizedBricks: Brick[] = generateBrickGrid(
+        canvasContext.canvas,
+        columnsNumber,
+        rowsNumber,
+        bricks.map((brick) => ({ ...brick }))
+      );
+      setBricks(resizedBricks);
+      drawBricks(canvasContext.context, canvasContext.canvas, resizedBricks);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [bricks, columnsNumber, rowsNumber, canvasContext]);
 
   const handleClick = useCallback(
-    (e: ClickReactEvent): void => {
+    (e: React.MouseEvent<HTMLCanvasElement>) => {
       const canvas: HTMLCanvasElement | null = canvasRef.current;
       if (!canvas) return;
       const context: CanvasRenderingContext2D | null = canvas.getContext("2d");
@@ -106,10 +111,10 @@ const Canvas = ({
       );
       setBricks(newBricks);
     },
-    [bricks, canvasRef, brickColor]
+    [bricks, brickColor]
   );
 
-  if (OUT_OF_BOUNDS) {
+  if (isOutOfBounds) {
     return <NoView />;
   }
 
