@@ -41,8 +41,8 @@ const Canvas = ({
   const OUT_OF_BOUNDS: boolean =
     rowsNumber > MAX_ROWS_COUNT ||
     columnsNumber > MAX_COLUMNS_COUNT ||
-    rowsNumber < 0 ||
-    columnsNumber < 0;
+    rowsNumber <= 0 ||
+    columnsNumber <= 0;
 
   useEffect(() => {
     if (OUT_OF_BOUNDS) {
@@ -100,7 +100,7 @@ const Canvas = ({
 
       const newBricks: Brick[] = handleCanvasClick(
         e,
-        bricks.map((brick) => ({ ...brick })), // Create a new array with updated values
+        bricks.map((brick) => ({ ...brick })),
         canvas,
         brickColor
       );
@@ -109,7 +109,7 @@ const Canvas = ({
     [bricks, canvasRef, brickColor]
   );
 
-  if (rowsNumber <= 0 || columnsNumber <= 0) {
+  if (OUT_OF_BOUNDS) {
     return <NoView />;
   }
 

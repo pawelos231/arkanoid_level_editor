@@ -3,8 +3,7 @@ import {
   MAX_COLUMNS_COUNT,
   MAX_ROWS_COUNT,
 } from "../../constants/defaultValues";
-import { bricksData } from "../../helpers/brickData";
-import { BrickData } from "../../helpers/brickData";
+import { bricksData, BrickData } from "../../helpers/brickData";
 import { useState, useEffect, useCallback, Suspense, lazy } from "react";
 const Info = lazy(() => import("../InfoModal/Info"));
 
@@ -51,6 +50,10 @@ const Navbar = ({
     [setBrick]
   );
 
+  const handleModal = useCallback((modal: boolean) => {
+    handleOpenModal(modal);
+  }, []);
+
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -60,7 +63,7 @@ const Navbar = ({
       <div
         key={brick.color}
         onClick={() => handleBrickChoose(brick)}
-        className="brick"
+        className={"brick"}
         style={{ backgroundColor: brick.color }}
       ></div>
     ));
@@ -107,7 +110,7 @@ const Navbar = ({
       </div>
       {modal ? (
         <Suspense fallback={<div>Loading...</div>}>
-          <Info renderBricks={renderBricks} />
+          <Info bricksData={bricksData} onClose={handleModal} />
         </Suspense>
       ) : null}
     </nav>
