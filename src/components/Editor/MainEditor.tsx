@@ -19,7 +19,7 @@ const Editor = ({
   bricks,
   setBricks,
 }: Props) => {
-  console.log("render");
+  //console.log("render");
   return (
     <Canvas
       bricks={bricks}

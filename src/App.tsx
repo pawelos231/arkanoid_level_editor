@@ -16,13 +16,14 @@ function App() {
 
   const generateMapData = useCallback(
     (levelInfo: LevelInfo): Level => {
-      const combined = {
+      const levelMap = {
+        ...levelInfo,
         numberOfRows: rowsCount,
         numberOfColumns: columnsCount,
         brickArray: bricks,
       };
-
-      return { ...levelInfo, ...combined };
+      console.log(levelMap);
+      return levelMap;
     },
     [bricks, columnsCount, rowsCount]
   );

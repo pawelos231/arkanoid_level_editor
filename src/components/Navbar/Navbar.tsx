@@ -14,6 +14,7 @@ import {
 } from "../../constants/defaultValues";
 import { LevelInfo, BrickData } from "../../interfaces/Level";
 const Info = lazy(() => import("../InfoModal/Info"));
+const SaveLevelModal = lazy(() => import("../SaveLevelModal/SaveLevelModal"));
 
 type Props = {
   changeRowsCount: (rows: number) => void;
@@ -148,7 +149,7 @@ const Navbar: React.FC<Props> = ({
       </div>
       {modalOpen && (
         <Suspense fallback={<LoadingState />}>
-          <Info bricksData={bricksData} onClose={handleModal} />
+          <Info onClose={setModalOpen} bricksData={bricksData} />
         </Suspense>
       )}
     </nav>
