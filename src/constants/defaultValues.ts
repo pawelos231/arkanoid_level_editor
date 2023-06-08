@@ -1,10 +1,10 @@
 export const DEFAULT_ROWS_COUNT = 3
 export const DEFAULT_COLUMNS_COUNT = 8
-export const MAX_ROWS_COUNT = 10
-export const MAX_COLUMNS_COUNT = 20
-export const OUT_OF_RANGE = "The value you provided is out of range"
 export const DEFAULT_BRICK_COLOR = "#FFF"
 export const DEFAULT_LIVES_COUNT = 3
 export const DEFAULT_TIMER_VALUE = 600
 export const DEFAULT_LEVEL_DESCRIPTION = "nice level"
 export const DEFAULT_LEVEL_NAME = "void"
+export const MAX_ROWS_COUNT = 10
+export const MAX_COLUMNS_COUNT = 20
+export const OUT_OF_RANGE = "The value you provided is out of range"

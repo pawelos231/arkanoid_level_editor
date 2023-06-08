@@ -12,7 +12,7 @@ export interface Level {
     requiredScore: number;
   }
   
-  export type LevelInfo = {
+  export interface LevelInfo {
     lives: number;
     timer: number;
     bossLevel: boolean;
@@ -21,19 +21,20 @@ export interface Level {
     requiredScore: number;
     levelName: string;
     level: number;
-  };
-
-  export type Brick = {
+  }
+  
+  export interface Brick {
     x: number;
     y: number;
     width: number;
     height: number;
-    color: string
-}
-
-export interface BrickData {
-    color: string
-    timesToHit: number
-    points: number
-    buffDropRate: number
-}
+    color: string;
+  }
+  
+  export interface BrickData {
+    color: string;
+    timesToHit: number;
+    points: number;
+    buffDropRate: number;
+  }
+  

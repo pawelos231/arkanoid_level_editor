@@ -1,4 +1,4 @@
-.navbar{
+.navbar {
     display: flex;
     flex-direction: column;
     background-color: #03001C;
@@ -6,62 +6,61 @@
     justify-self: center;
     align-items: center;
     gap: 20px;
-}
-
-.navbar > h1 {
+  }
+  
+  .navbar > h1 {
     text-align: center;
     color: #B6EADA;
     width: 100%;
     flex-basis: 10%;
-}
-
-.kolor > .brickColor {
-    flex-basis: 10%;
-    width: 100%;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-}
-
-.kolor > .brickColor > p{
-    height: 20px;
-    flex-basis: 40%;
-}
-
-.kolor {
+  }
+  
+  .kolor {
     width: 90%;
     flex-basis: 50%;
     color: white;
     display: flex;
     flex-direction: column;
     justify-content: center;
-}
-
-.grid {
+  }
+  
+  .kolor > .brickColor {
+    flex-basis: 10%;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .kolor > .brickColor > p {
+    height: 20px;
+    flex-basis: 40%;
+  }
+  
+  .grid {
     display: flex;
     color: white;
     width: 90%;
     flex-basis: 40%;
     display: flex;
     flex-direction: column;
-}
-
-.grid > .rows, .grid > .columns  {
+  }
+  
+  .grid > .rows,
+  .grid > .columns {
     flex-basis: 20%;
     margin: 10px;
     font-size: 20px;
     display: flex;
     flex-direction: column;
-}
-
-
-
-.grid > div > input {
- flex-grow: 1;
- font-size: 20px;
-}
-
-.brick{
+  }
+  
+  .grid > div > input {
+    flex-grow: 1;
+    font-size: 20px;
+  }
+  
+  .brick {
     width: 45%;
     height: 15%;
     margin: 0;
@@ -73,27 +72,28 @@
     border: 1px solid white;
     transition: all 0.14s;
     cursor: pointer;
-}
-
-.brick:hover{
+  }
+  
+  .brick:hover {
     transform: scale(.95);
     border-radius: 2px;
-}
-
-.brickContainer{
+  }
+  
+  .brickContainer {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     flex-grow: 1;
     gap: 5px;
-}
-
-.kolor > p {
+  }
+  
+  .kolor > p {
     flex-basis: 20%;
     text-align: center;
     font-size: 20px;
-}
-.checkers{
+  }
+  
+  .checkers {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -102,41 +102,45 @@
     margin-top: 10px;
     flex-basis: 40%;
     gap: 20px;
-}
-
-.checkers > div{
+  }
+  
+  .checkers > div {
     display: flex;
     justify-content: center;
     width: 60%;
     align-items: center;
     gap: 20px;
-}
-.checkers > div > input{
+  }
+  
+  .checkers > div > input {
     width: 20px;
-}
-
-.checkers > div > p{
+  }
+  
+  .checkers > div > p {
     display: flex;
     height: auto;
     flex-grow: 1;
-}
-
-.delete, .save{
+  }
+  
+  .delete,
+  .save {
     width: 70%;
     font-size: 20px;
     height: 100%;
     cursor: pointer;
     transition: .15s all;
-}
-
-.delete{
+  }
+  
+  .delete {
     color: red;
-}
-
-.save{
+  }
+  
+  .save {
     color: green;
-}
-
-.delete:hover, .save:hover{
+  }
+  
+  .delete:hover,
+  .save:hover {
     transform: scale(1.05);
-}
+  }
+  

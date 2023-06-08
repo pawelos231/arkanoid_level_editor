@@ -18,7 +18,6 @@ function withPortal<P extends object>(
       setMounted(true);
       portalContainerRef.current =
         document.querySelector<HTMLElement>(portalId);
-      console.log(portalId);
       return () => {
         portalContainerRef.current = null;
       };
