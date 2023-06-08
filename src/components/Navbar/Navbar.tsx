@@ -1,10 +1,18 @@
-import "./navbar.css";
+import React, { useState, useEffect, useCallback, Suspense, lazy } from "react";
 import {
   MAX_COLUMNS_COUNT,
   MAX_ROWS_COUNT,
 } from "../../constants/defaultValues";
-import { bricksData, BrickData } from "../../helpers/brickData";
-import { useState, useEffect, useCallback, Suspense, lazy } from "react";
+import { bricksData } from "../../helpers/brickData";
+import LoadingState from "./LoadingState";
+import "./navbar.css";
+import {
+  DEFAULT_LEVEL_NAME,
+  DEFAULT_LEVEL_DESCRIPTION,
+  DEFAULT_TIMER_VALUE,
+  DEFAULT_LIVES_COUNT,
+} from "../../constants/defaultValues";
+import { LevelInfo, BrickData } from "../../interfaces/Level";
 const Info = lazy(() => import("../InfoModal/Info"));
 
 type Props = {
@@ -12,22 +20,50 @@ type Props = {
   changeColumnCount: (columns: number) => void;
   setBrick: (brick: string) => void;
   handleGridOpen: (gridState: boolean) => void;
+  generateMap: (levelInfo: LevelInfo) => void;
   rows: number;
   grid: boolean;
   columns: number;
 };
 
-const Navbar = ({
+const Navbar: React.FC<Props> = ({
   changeRowsCount,
   changeColumnCount,
   rows,
   columns,
   setBrick,
   handleGridOpen,
+  generateMap,
   grid,
-}: Props) => {
-  const [modal, handleOpenModal] = useState<boolean>(false);
+}) => {
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [mounted, setMounted] = useState<boolean>(false);
+  const [lives, setLives] = useState<number>(DEFAULT_LIVES_COUNT);
+  const [timer, setTimer] = useState<number>(DEFAULT_TIMER_VALUE);
+  const [bossLevel, setBossLevel] = useState<boolean>(false);
+  const [description, setDescription] = useState<string>(
+    DEFAULT_LEVEL_DESCRIPTION
+  );
+  const [highScore, setHighScore] = useState<number>(0);
+  const [requiredScore, setRequiredScore] = useState<number>(0);
+  const [levelName, setLevelName] = useState<string>(DEFAULT_LEVEL_NAME);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const GenerateObjectForSave = (): LevelInfo => {
+    return {
+      level: 2,
+      lives,
+      timer,
+      bossLevel,
+      description,
+      highScore,
+      requiredScore,
+      levelName,
+    };
+  };
 
   const handleColumnCountInputChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -50,12 +86,8 @@ const Navbar = ({
     [setBrick]
   );
 
-  const handleModal = useCallback((modal: boolean) => {
-    handleOpenModal(modal);
-  }, []);
-
-  useEffect(() => {
-    setMounted(true);
+  const handleModal = useCallback(() => {
+    setModalOpen((prevModalOpen) => !prevModalOpen);
   }, []);
 
   const renderBricks = useCallback(() => {
@@ -63,7 +95,7 @@ const Navbar = ({
       <div
         key={brick.color}
         onClick={() => handleBrickChoose(brick)}
-        className={"brick"}
+        className="brick"
         style={{ backgroundColor: brick.color }}
       ></div>
     ));
@@ -75,7 +107,7 @@ const Navbar = ({
     <nav className="navbar">
       <h1>Level editor Menu</h1>
       <div className="grid">
-        <div>
+        <div className="columns">
           <p>Columns</p>
           <input
             type="number"
@@ -84,7 +116,7 @@ const Navbar = ({
             max={MAX_COLUMNS_COUNT}
           />
         </div>
-        <div>
+        <div className="rows">
           <p>Rows</p>
           <input
             type="number"
@@ -99,20 +131,26 @@ const Navbar = ({
             <input onChange={() => handleGridOpen(!grid)} type="checkbox" />
           </div>
           <button className="delete">DELETE PROGRESS</button>
+          <button
+            className="save"
+            onClick={() => generateMap(GenerateObjectForSave())}
+          >
+            SAVE PROGRESS
+          </button>
         </div>
       </div>
       <div className="kolor">
         <div className="brickColor">
-          <p>Brick Color</p>
-          <p onClick={() => handleOpenModal(!modal)}>info</p>
+          <p>Available bricks</p>
+          <p onClick={handleModal}>info</p>
         </div>
         <div className="brickContainer">{renderBricks()}</div>
       </div>
-      {modal ? (
-        <Suspense fallback={<div>Loading...</div>}>
+      {modalOpen && (
+        <Suspense fallback={<LoadingState />}>
           <Info bricksData={bricksData} onClose={handleModal} />
         </Suspense>
-      ) : null}
+      )}
     </nav>
   );
 };

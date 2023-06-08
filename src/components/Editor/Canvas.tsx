@@ -1,6 +1,5 @@
 import { useRef, useEffect, RefObject, useState, useCallback } from "react";
 import { drawBricks, generateBrickGrid } from "../../helpers/generateBrickGrid";
-import { Brick } from "../../helpers/generateBrickGrid";
 import { handleCanvasClick } from "../../helpers/clickBrick";
 import {
   MAX_COLUMNS_COUNT,
@@ -8,6 +7,7 @@ import {
   OUT_OF_RANGE,
 } from "../../constants/defaultValues";
 import NoView from "./NoView";
+import { Brick } from "../../interfaces/Level";
 
 interface CanvasProps {
   width: number;
@@ -16,6 +16,8 @@ interface CanvasProps {
   columnsNumber: number;
   brickColor: string;
   grid: boolean;
+  setBricks: (bricks: Brick[]) => void;
+  bricks: Brick[];
 }
 
 interface CanvasContextState {
@@ -30,9 +32,10 @@ const Canvas = ({
   columnsNumber,
   brickColor,
   grid,
+  bricks,
+  setBricks,
 }: CanvasProps) => {
   const canvasRef: RefObject<HTMLCanvasElement> = useRef(null);
-  const [bricks, setBricks] = useState<Brick[]>([]);
   const [canvasContext, setCanvasContext] = useState<CanvasContextState>({
     canvas: null,
     context: null,
@@ -65,13 +68,13 @@ const Canvas = ({
     drawBricks(context, canvas, generatedBricks);
 
     setCanvasContext({ canvas, context });
-  }, [rowsNumber, columnsNumber, isOutOfBounds]);
+  }, [rowsNumber, columnsNumber, isOutOfBounds, setBricks]);
 
   useEffect(() => {
     const { context, canvas } = canvasContext;
     if (!context || !canvas) return;
     drawBricks(context, canvas, bricks, grid);
-  }, [grid, bricks, canvasContext]);
+  }, [grid, canvasContext, bricks]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -94,7 +97,7 @@ const Canvas = ({
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [bricks, columnsNumber, rowsNumber, canvasContext]);
+  }, [bricks, columnsNumber, rowsNumber, canvasContext, setBricks]);
 
   const handleClick = useCallback(
     (e: React.MouseEvent<HTMLCanvasElement>) => {
@@ -111,7 +114,7 @@ const Canvas = ({
       );
       setBricks(newBricks);
     },
-    [bricks, brickColor]
+    [bricks, brickColor, setBricks]
   );
 
   if (isOutOfBounds) {

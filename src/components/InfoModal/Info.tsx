@@ -1,8 +1,8 @@
 import { createPortal } from "react-dom";
 import { useRef, useState, useEffect } from "react";
 import "./info.css";
-import { BrickData } from "../../helpers/brickData";
 import BrickInfoModal from "./brickInfoModal";
+import { BrickData } from "../../interfaces/Level";
 
 type Props = {
   bricksData: () => BrickData[];
@@ -10,7 +10,9 @@ type Props = {
 };
 
 const Info = ({ onClose, bricksData }: Props): JSX.Element | null => {
+  
   const ref = useRef<Element | null>(null);
+
   const [mounted, setMounted] = useState<boolean>(false);
   const [brick, setBrick] = useState<BrickData | null>(null);
   const [modal, setModal] = useState<boolean>(false);

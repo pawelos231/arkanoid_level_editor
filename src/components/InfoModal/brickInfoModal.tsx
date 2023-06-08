@@ -1,4 +1,4 @@
-import { BrickData } from "../../helpers/brickData";
+import { BrickData } from "../../interfaces/Level";
 
 type Props = { brick: BrickData; onClose: (modal: boolean) => void };
 const BrickInfoModal = ({ brick, onClose }: Props) => {

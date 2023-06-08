@@ -1,10 +1,4 @@
-export interface BrickData {
-    color: string
-    timesToHit: number
-    points: number
-    buffDropRate: number
-}
-
+import { BrickData } from "../interfaces/Level"
 export const bricksData = (): BrickData[] => {
 
     return [

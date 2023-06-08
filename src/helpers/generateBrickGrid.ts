@@ -1,13 +1,6 @@
 import { calculateBrickHeight } from "./calculateBrickHeight";
 import { DEFAULT_BRICK_COLOR } from "../constants/defaultValues";
-
-export type Brick = {
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-    color: string
-}
+import { Brick } from "../interfaces/Level";
 
 export const generateBrickGrid = (canvas: HTMLCanvasElement , columnsNumber: number, rowsNumber: number, bricks: Brick[] = []) => {
 
@@ -21,7 +14,6 @@ export const generateBrickGrid = (canvas: HTMLCanvasElement , columnsNumber: num
 
 
     if(isBricksProvided) {
-      
       bricks.forEach((item) => {
         brickGrid.push({
           x: item.x,
@@ -34,9 +26,6 @@ export const generateBrickGrid = (canvas: HTMLCanvasElement , columnsNumber: num
 
       return brickGrid
     }
-
-
-
 
     for (let i = 0; i < columnsNumber; i++) {
       for (let j = 0; j < rowsNumber; j++) {

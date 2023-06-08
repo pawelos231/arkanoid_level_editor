@@ -16,7 +16,7 @@
 }
 
 .kolor > .brickColor {
-    flex-basis: 20%;
+    flex-basis: 10%;
     width: 100%;
     text-align: center;
     display: flex;
@@ -24,9 +24,8 @@
 }
 
 .kolor > .brickColor > p{
-    flex-basis: 20%;
     height: 20px;
-    flex-basis: 30%;
+    flex-basis: 40%;
 }
 
 .kolor {
@@ -47,13 +46,15 @@
     flex-direction: column;
 }
 
-.grid > div {
-    height: 25%;
+.grid > .rows, .grid > .columns  {
+    flex-basis: 20%;
     margin: 10px;
     font-size: 20px;
     display: flex;
     flex-direction: column;
 }
+
+
 
 .grid > div > input {
  flex-grow: 1;
@@ -94,9 +95,12 @@
 }
 .checkers{
     display: flex;
-    height: 20px;
     justify-content: center;
     align-items: center;
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    flex-basis: 40%;
     gap: 20px;
 }
 
@@ -117,8 +121,22 @@
     flex-grow: 1;
 }
 
-.delete{
-    color: red;
+.delete, .save{
     width: 70%;
     font-size: 20px;
+    height: 100%;
+    cursor: pointer;
+    transition: .15s all;
+}
+
+.delete{
+    color: red;
+}
+
+.save{
+    color: green;
+}
+
+.delete:hover, .save:hover{
+    transform: scale(1.05);
 }

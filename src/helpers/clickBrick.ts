@@ -1,5 +1,5 @@
-  import { Brick } from "./generateBrickGrid";
-  import { DEFAULT_BRICK_COLOR } from "../constants/defaultValues";
+import { Brick } from "../interfaces/Level";  
+import { DEFAULT_BRICK_COLOR } from "../constants/defaultValues";
 export function handleCanvasClick(
     event:  React.MouseEvent<HTMLCanvasElement, MouseEvent>,
     bricks: Brick[],
