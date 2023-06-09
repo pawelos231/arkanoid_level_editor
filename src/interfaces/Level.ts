@@ -6,7 +6,7 @@ export interface Level {
     lives: number;
     timer: number;
     bossLevel: boolean;
-    brickArray: Brick[];
+    brickArray: BrickToLevelSave[];
     description: string;
     highScore: number;
     requiredScore: number;
@@ -24,12 +24,16 @@ export interface Level {
   }
   
   export interface Brick {
+    rowNumber: number, 
+    columnNumber: number
     x: number;
     y: number;
     width: number;
     height: number;
     color: string;
   }
+
+  export type BrickToLevelSave = Pick<Brick, "rowNumber" | "columnNumber" | "color">
   
   export interface BrickData {
     color: string;

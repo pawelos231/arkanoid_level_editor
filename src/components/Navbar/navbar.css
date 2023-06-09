@@ -15,7 +15,7 @@
     flex-basis: 10%;
   }
   
-  .kolor {
+  .color {
     width: 90%;
     flex-basis: 50%;
     color: white;
@@ -24,7 +24,7 @@
     justify-content: center;
   }
   
-  .kolor > .brickColor {
+  .color > .brickColor {
     flex-basis: 10%;
     width: 100%;
     text-align: center;
@@ -32,7 +32,7 @@
     justify-content: center;
   }
   
-  .kolor > .brickColor > p {
+  .color > .brickColor > p {
     height: 20px;
     flex-basis: 40%;
   }

@@ -5,4 +5,64 @@
     width: 100vw;
     height: 100vh;
     backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.close {
+    font-size: 60px;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: white;
+}
+
+.levelSet{
+    width: 25%;
+    height: 80%;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.save-level{
+    padding: 10px;
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+    margin: 60px;
+    font-size: 25px;
+    transition: .2s all;
+    cursor: pointer;
+}
+
+.save-level:hover{
+    transform: scale(0.95);
+}
+
+.form{
+    display: flex;
+    justify-self: center;
+    flex-direction: column;
+    width: 75%;
+    gap: 5px;
+}
+.form > input{
+   padding: 10px;
+}
+.form > textarea{
+    padding: 10px;
+ }
+
+.boss{
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    justify-content: center;
+    padding: 10px;
 }

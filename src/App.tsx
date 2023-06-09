@@ -5,7 +5,7 @@ import {
   DEFAULT_ROWS_COUNT,
   DEFAULT_COLUMNS_COUNT,
 } from "./constants/defaultValues";
-import { LevelInfo, Level, Brick } from "./interfaces/Level";
+import { LevelInfo, Level, Brick, BrickToLevelSave } from "./interfaces/Level";
 
 function App() {
   const [rowsCount, setRowsCount] = useState(DEFAULT_ROWS_COUNT);
@@ -20,7 +20,14 @@ function App() {
         ...levelInfo,
         numberOfRows: rowsCount,
         numberOfColumns: columnsCount,
-        brickArray: bricks,
+        brickArray: bricks.map((item: Brick) => {
+          const filteredObject: BrickToLevelSave = {
+            color: item.color,
+            rowNumber: item.rowNumber,
+            columnNumber: item.columnNumber,
+          };
+          return filteredObject;
+        }),
       };
       console.log(levelMap);
       return levelMap;

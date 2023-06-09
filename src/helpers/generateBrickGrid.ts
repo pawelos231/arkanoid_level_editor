@@ -16,6 +16,8 @@ export const generateBrickGrid = (canvas: HTMLCanvasElement , columnsNumber: num
     if(isBricksProvided) {
       bricks.forEach((item) => {
         brickGrid.push({
+          rowNumber: item.rowNumber,
+          columnNumber: item.columnNumber,
           x: item.x,
           y: item.y,
           width: brickWidth,
@@ -31,6 +33,8 @@ export const generateBrickGrid = (canvas: HTMLCanvasElement , columnsNumber: num
       for (let j = 0; j < rowsNumber; j++) {
 
         brickGrid.push({
+            rowNumber: j,
+            columnNumber: i,
             x: i * brickWidth,
             y: j * brickHeight,
             width: brickWidth,

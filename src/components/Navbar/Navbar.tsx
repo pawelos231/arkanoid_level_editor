@@ -1,19 +1,13 @@
 import React, { useState, useEffect, useCallback, Suspense, lazy } from "react";
+import { bricksData } from "../../helpers/brickData";
+import LoadingState from "./LoadingState";
+import "./navbar.css";
+import { LevelInfo, BrickData } from "../../interfaces/Level";
 import {
   MAX_COLUMNS_COUNT,
   MAX_ROWS_COUNT,
 } from "../../constants/defaultValues";
-import { bricksData } from "../../helpers/brickData";
-import LoadingState from "./LoadingState";
-import "./navbar.css";
-import {
-  DEFAULT_LEVEL_NAME,
-  DEFAULT_LEVEL_DESCRIPTION,
-  DEFAULT_TIMER_VALUE,
-  DEFAULT_LIVES_COUNT,
-} from "../../constants/defaultValues";
-import { LevelInfo, BrickData } from "../../interfaces/Level";
-const Info = lazy(() => import("../InfoModal/Info"));
+const InfoModal = lazy(() => import("../InfoModal/Info"));
 const SaveLevelModal = lazy(() => import("../SaveLevelModal/SaveLevelModal"));
 
 type Props = {
@@ -27,7 +21,7 @@ type Props = {
   columns: number;
 };
 
-const Navbar: React.FC<Props> = ({
+const Navbar = ({
   changeRowsCount,
   changeColumnCount,
   rows,
@@ -36,35 +30,14 @@ const Navbar: React.FC<Props> = ({
   handleGridOpen,
   generateMap,
   grid,
-}) => {
+}: Props) => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [modalSaveLevel, setModalSaveLevel] = useState<boolean>(false);
   const [mounted, setMounted] = useState<boolean>(false);
-  const [lives, setLives] = useState<number>(DEFAULT_LIVES_COUNT);
-  const [timer, setTimer] = useState<number>(DEFAULT_TIMER_VALUE);
-  const [bossLevel, setBossLevel] = useState<boolean>(false);
-  const [description, setDescription] = useState<string>(
-    DEFAULT_LEVEL_DESCRIPTION
-  );
-  const [highScore, setHighScore] = useState<number>(0);
-  const [requiredScore, setRequiredScore] = useState<number>(0);
-  const [levelName, setLevelName] = useState<string>(DEFAULT_LEVEL_NAME);
 
   useEffect(() => {
     setMounted(true);
   }, []);
-
-  const GenerateObjectForSave = (): LevelInfo => {
-    return {
-      level: 2,
-      lives,
-      timer,
-      bossLevel,
-      description,
-      highScore,
-      requiredScore,
-      levelName,
-    };
-  };
 
   const handleColumnCountInputChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -87,6 +60,10 @@ const Navbar: React.FC<Props> = ({
     [setBrick]
   );
 
+  const handleSaveLevelModal = useCallback((modal: boolean) => {
+    setModalSaveLevel(modal);
+  }, []);
+
   const handleModal = useCallback(() => {
     setModalOpen((prevModalOpen) => !prevModalOpen);
   }, []);
@@ -106,7 +83,7 @@ const Navbar: React.FC<Props> = ({
 
   return (
     <nav className="navbar">
-      <h1>Level editor Menu</h1>
+      <h1>Level Editor Menu</h1>
       <div className="grid">
         <div className="columns">
           <p>Columns</p>
@@ -128,28 +105,36 @@ const Navbar: React.FC<Props> = ({
         </div>
         <div className="checkers">
           <div>
-            <p>Delete grid</p>{" "}
+            <p>Delete Grid</p>{" "}
             <input onChange={() => handleGridOpen(!grid)} type="checkbox" />
           </div>
-          <button className="delete">DELETE PROGRESS</button>
+          <button className="delete">Delete Progress</button>
           <button
             className="save"
-            onClick={() => generateMap(GenerateObjectForSave())}
+            onClick={() => handleSaveLevelModal(!modalSaveLevel)}
           >
-            SAVE PROGRESS
+            Save Progress
           </button>
         </div>
       </div>
-      <div className="kolor">
+      <div className="color">
         <div className="brickColor">
-          <p>Available bricks</p>
-          <p onClick={handleModal}>info</p>
+          <p>Available Bricks</p>
+          <p onClick={handleModal}>Info</p>
         </div>
         <div className="brickContainer">{renderBricks()}</div>
       </div>
       {modalOpen && (
         <Suspense fallback={<LoadingState />}>
-          <Info onClose={setModalOpen} bricksData={bricksData} />
+          <InfoModal onClose={setModalOpen} bricksData={bricksData} />
+        </Suspense>
+      )}
+      {modalSaveLevel && (
+        <Suspense fallback={<LoadingState />}>
+          <SaveLevelModal
+            onClose={handleSaveLevelModal}
+            generateMap={generateMap}
+          />
         </Suspense>
       )}
     </nav>
