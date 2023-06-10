@@ -48,7 +48,7 @@
   
   .grid > .rows,
   .grid > .columns {
-    flex-basis: 20%;
+    flex-basis: 15%;
     margin: 10px;
     font-size: 20px;
     display: flex;
@@ -100,8 +100,8 @@
     display: flex;
     flex-direction: column;
     margin-top: 10px;
-    flex-basis: 40%;
-    gap: 20px;
+    flex-grow: 1;
+    gap: 15px;
   }
   
   .checkers > div {
@@ -123,7 +123,7 @@
   }
   
   .delete,
-  .save {
+  .save,.wczytaj {
     width: 70%;
     font-size: 20px;
     height: 100%;
@@ -139,6 +139,10 @@
     color: green;
   }
   
+  .wczytaj{
+    color: orange;
+  }
+
   .delete:hover,
   .save:hover {
     transform: scale(1.05);

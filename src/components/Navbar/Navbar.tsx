@@ -9,6 +9,7 @@ import {
 } from "../../constants/defaultValues";
 const InfoModal = lazy(() => import("../InfoModal/Info"));
 const SaveLevelModal = lazy(() => import("../SaveLevelModal/SaveLevelModal"));
+const LoadLevelModal = lazy(() => import("../loadLevelModal/loadLevel"));
 
 type Props = {
   changeRowsCount: (rows: number) => void;
@@ -31,8 +32,9 @@ const Navbar = ({
   generateMap,
   grid,
 }: Props) => {
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [modalInfo, setModalInfo] = useState<boolean>(false);
   const [modalSaveLevel, setModalSaveLevel] = useState<boolean>(false);
+  const [modalLoadLevel, setModalLoadLevel] = useState<boolean>(false);
   const [mounted, setMounted] = useState<boolean>(false);
 
   useEffect(() => {
@@ -60,12 +62,16 @@ const Navbar = ({
     [setBrick]
   );
 
-  const handleSaveLevelModal = useCallback((modal: boolean) => {
+  const handleModalSaveLevel = useCallback((modal: boolean) => {
     setModalSaveLevel(modal);
   }, []);
 
-  const handleModal = useCallback(() => {
-    setModalOpen((prevModalOpen) => !prevModalOpen);
+  const handleModalInfo = useCallback(() => {
+    setModalInfo((prevModalOpen) => !prevModalOpen);
+  }, []);
+
+  const handleModalLoadLevel = useCallback(() => {
+    setModalLoadLevel((prevModalOpen) => !prevModalOpen);
   }, []);
 
   const renderBricks = useCallback(() => {
@@ -111,30 +117,38 @@ const Navbar = ({
           <button className="delete">Delete Progress</button>
           <button
             className="save"
-            onClick={() => handleSaveLevelModal(!modalSaveLevel)}
+            onClick={() => handleModalSaveLevel(!modalSaveLevel)}
           >
             Save Progress
+          </button>
+          <button className="wczytaj" onClick={() => handleModalLoadLevel()}>
+            Wczytaj Progress
           </button>
         </div>
       </div>
       <div className="color">
         <div className="brickColor">
           <p>Available Bricks</p>
-          <p onClick={handleModal}>Info</p>
+          <p onClick={handleModalInfo}>Info</p>
         </div>
         <div className="brickContainer">{renderBricks()}</div>
       </div>
-      {modalOpen && (
+      {modalInfo && (
         <Suspense fallback={<LoadingState />}>
-          <InfoModal onClose={setModalOpen} bricksData={bricksData} />
+          <InfoModal onClose={handleModalInfo} bricksData={bricksData} />
         </Suspense>
       )}
       {modalSaveLevel && (
         <Suspense fallback={<LoadingState />}>
           <SaveLevelModal
-            onClose={handleSaveLevelModal}
+            onClose={handleModalSaveLevel}
             generateMap={generateMap}
           />
+        </Suspense>
+      )}
+      {modalLoadLevel && (
+        <Suspense fallback={<LoadingState />}>
+          <LoadLevelModal onClose={handleModalLoadLevel} />
         </Suspense>
       )}
     </nav>
