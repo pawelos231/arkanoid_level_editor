@@ -52,7 +52,6 @@ export const drawBricks = (context: CanvasRenderingContext2D, canvas: HTMLCanvas
 
     context.clearRect(0, 0, canvas.width, canvas.height);
     context.lineWidth = 1;
-    console.log("drawCall")
     bricks.forEach((brick: Brick) => {
         context.fillStyle = brick.color;
         if(grid){

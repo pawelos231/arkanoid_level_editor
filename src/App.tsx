@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import Navabar from "./components/Navbar/Navbar";
+import Navbar from "./components/Navbar/Navbar";
 import Editor from "./components/Editor/MainEditor";
 import {
   DEFAULT_ROWS_COUNT,
@@ -32,7 +32,7 @@ function App() {
       console.log(levelMap);
       return levelMap;
     },
-    [bricks, columnsCount, rowsCount]
+    [columnsCount, rowsCount, bricks]
   );
 
   const handleChangeRowsCount = useCallback((rows: number) => {
@@ -53,7 +53,7 @@ function App() {
 
   return (
     <div className="wrapper">
-      <Navabar
+      <Navbar
         generateMap={generateMapData}
         changeRowsCount={handleChangeRowsCount}
         changeColumnCount={handleChangeColumnsCount}

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { memo } from "react";
 
 interface PortalProps {
   portalId: string;
@@ -9,7 +10,7 @@ function withPortal<P extends object>(
   WrappedComponent: React.ComponentType<P>,
   portalProps: PortalProps
 ) {
-  return function PortalWrapper(props: P) {
+  return memo(function PortalWrapper(props: P) {
     const { portalId } = portalProps;
     const [mounted, setMounted] = useState<boolean>(false);
     const portalContainerRef = useRef<Element | null>(null);
@@ -31,7 +32,7 @@ function withPortal<P extends object>(
       <WrappedComponent {...props} />,
       portalContainerRef.current
     );
-  };
+  });
 }
 
 export default withPortal;
