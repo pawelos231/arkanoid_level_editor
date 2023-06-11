@@ -32,14 +32,19 @@ function App() {
   }, [dependency]);
 
   const generateMapData = useCallback(
-    (levelInfo: LevelInfo): Level => {
+    async (levelInfo: LevelInfo): Promise<Level> => {
       const levelMap = {
         ...levelInfo,
         numberOfRows: rowsCount,
         numberOfColumns: columnsCount,
         brickArray: filtered,
       };
-      console.log(levelMap);
+      await fetch("http://localhost:3002/sendLevelData", {
+        method: "POST",
+        body: JSON.stringify(levelMap),
+      })
+        .then((res) => res.json())
+        .then((data) => console.log(data));
       return levelMap;
     },
     [columnsCount, rowsCount, filtered]
