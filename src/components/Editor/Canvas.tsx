@@ -8,6 +8,7 @@ import {
 } from "../../constants/defaultValues";
 import NoView from "./NoView";
 import { Brick } from "../../interfaces/Level";
+import useResize from "../../hooks/useResize";
 
 interface CanvasProps {
   width: number;
@@ -76,28 +77,20 @@ const Canvas = ({
     drawBricks(context, canvas, bricks, grid);
   }, [grid, canvasContext, bricks]);
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (!canvasContext.canvas || !canvasContext.context) {
-        throw new Error("canvas does not exist");
-      }
+  useResize(10, () => {
+    if (!canvasContext.canvas || !canvasContext.context) {
+      throw new Error("canvas does not exist");
+    }
 
-      const resizedBricks: Brick[] = generateBrickGrid(
-        canvasContext.canvas,
-        columnsNumber,
-        rowsNumber,
-        bricks.map((brick) => ({ ...brick }))
-      );
-      setBricks(resizedBricks);
-      drawBricks(canvasContext.context, canvasContext.canvas, resizedBricks);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [bricks, columnsNumber, rowsNumber, canvasContext, setBricks]);
+    const resizedBricks: Brick[] = generateBrickGrid(
+      canvasContext.canvas,
+      columnsNumber,
+      rowsNumber,
+      bricks.map((brick) => ({ ...brick }))
+    );
+    setBricks(resizedBricks);
+    drawBricks(canvasContext.context, canvasContext.canvas, resizedBricks);
+  });
 
   const handleClick = useCallback(
     (e: React.MouseEvent<HTMLCanvasElement>) => {

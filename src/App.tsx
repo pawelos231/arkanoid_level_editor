@@ -1,4 +1,5 @@
-import { useState, useCallback } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useState, useCallback, useMemo } from "react";
 import Navbar from "./components/Navbar/Navbar";
 import Editor from "./components/Editor/MainEditor";
 import {
@@ -14,25 +15,34 @@ function App() {
   const [gridOpen, setGridOpen] = useState(true);
   const [bricks, setBricks] = useState<Brick[]>([]);
 
+  const dependency = JSON.stringify(
+    bricks.map((item: Brick) => [item.color, item.rowNumber, item.columnNumber])
+  );
+
+  const filtered = useMemo(() => {
+    return bricks.map((item: Brick) => {
+      const { color, rowNumber, columnNumber } = item;
+      const filteredObject: BrickToLevelSave = {
+        color,
+        rowNumber,
+        columnNumber,
+      };
+      return filteredObject;
+    });
+  }, [dependency]);
+
   const generateMapData = useCallback(
     (levelInfo: LevelInfo): Level => {
       const levelMap = {
         ...levelInfo,
         numberOfRows: rowsCount,
         numberOfColumns: columnsCount,
-        brickArray: bricks.map((item: Brick) => {
-          const filteredObject: BrickToLevelSave = {
-            color: item.color,
-            rowNumber: item.rowNumber,
-            columnNumber: item.columnNumber,
-          };
-          return filteredObject;
-        }),
+        brickArray: filtered,
       };
       console.log(levelMap);
       return levelMap;
     },
-    [columnsCount, rowsCount, bricks]
+    [columnsCount, rowsCount, filtered]
   );
 
   const handleChangeRowsCount = useCallback((rows: number) => {

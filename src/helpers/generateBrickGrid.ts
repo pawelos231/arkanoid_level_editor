@@ -18,8 +18,8 @@ export const generateBrickGrid = (canvas: HTMLCanvasElement , columnsNumber: num
         brickGrid.push({
           rowNumber: item.rowNumber,
           columnNumber: item.columnNumber,
-          x: item.x,
-          y: item.y,
+          x: (item.x / item.width) * brickWidth,
+          y: (item.y / item.height) * brickHeight,
           width: brickWidth,
           height: brickHeight,
           color: item.color

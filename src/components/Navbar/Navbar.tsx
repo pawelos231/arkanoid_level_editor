@@ -43,7 +43,7 @@ const Navbar = React.memo(
     useEffect(() => {
       setMounted(true);
     }, []);
-
+    console.log("render");
     const handleColumnCountInputChange = (
       event: React.ChangeEvent<HTMLInputElement>
     ) => {
