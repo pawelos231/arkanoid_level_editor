@@ -22,7 +22,11 @@ export const generateBrickGrid = (canvas: HTMLCanvasElement , columnsNumber: num
           y: (item.y / item.height) * brickHeight,
           width: brickWidth,
           height: brickHeight,
-          color: item.color
+          color: item.color,
+          timesToHit: item.timesToHit, 
+          points: item.points, 
+          buffDropRate:item.buffDropRate
+
         })
       })
 
@@ -39,7 +43,11 @@ export const generateBrickGrid = (canvas: HTMLCanvasElement , columnsNumber: num
             y: j * brickHeight,
             width: brickWidth,
             height: brickHeight,
-            color: DEFAULT_BRICK_COLOR
+            color: DEFAULT_BRICK_COLOR,
+            timesToHit: 0, 
+            points: 0, 
+            buffDropRate:0
+            
         });
       }
     }

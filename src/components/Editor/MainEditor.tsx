@@ -1,11 +1,12 @@
 import "./mainEditor.css";
 import Canvas from "./Canvas";
 import { Brick } from "../../interfaces/Level";
+import { BrickData } from "../../interfaces/Level";
 
 type Props = {
   columnsCount: number;
   rowsCount: number;
-  brickColor: string;
+  brickData: BrickData;
   grid: boolean;
   setBricks: (bricks: Brick[]) => void;
   bricks: Brick[];
@@ -14,7 +15,7 @@ type Props = {
 const Editor = ({
   columnsCount,
   rowsCount,
-  brickColor,
+  brickData,
   grid,
   bricks,
   setBricks,
@@ -27,7 +28,7 @@ const Editor = ({
       height={window.innerHeight}
       columnsNumber={columnsCount}
       rowsNumber={rowsCount}
-      brickColor={brickColor}
+      brickData={brickData}
       setBricks={setBricks}
       grid={grid}
     />

@@ -31,9 +31,13 @@ export interface Level {
     width: number;
     height: number;
     color: string;
+    buffDropRate: number
+    timesToHit: number
+    points: number
+
   }
 
-  export type BrickToLevelSave = Pick<Brick, "rowNumber" | "columnNumber" | "color">
+  export type BrickToLevelSave = Pick<Brick, "rowNumber" | "columnNumber" | "color" | "buffDropRate" | "points" | "timesToHit">
   
   export interface BrickData {
     color: string;

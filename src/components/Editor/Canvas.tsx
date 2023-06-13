@@ -7,7 +7,7 @@ import {
   OUT_OF_RANGE,
 } from "../../constants/defaultValues";
 import NoView from "./NoView";
-import { Brick } from "../../interfaces/Level";
+import { Brick, BrickData } from "../../interfaces/Level";
 import useResize from "../../hooks/useResize";
 
 interface CanvasProps {
@@ -15,7 +15,7 @@ interface CanvasProps {
   height: number;
   rowsNumber: number;
   columnsNumber: number;
-  brickColor: string;
+  brickData: BrickData;
   grid: boolean;
   setBricks: (bricks: Brick[]) => void;
   bricks: Brick[];
@@ -31,7 +31,7 @@ const Canvas = ({
   height,
   rowsNumber,
   columnsNumber,
-  brickColor,
+  brickData,
   grid,
   bricks,
   setBricks,
@@ -103,11 +103,11 @@ const Canvas = ({
         e,
         bricks.map((brick) => ({ ...brick })),
         canvas,
-        brickColor
+        brickData
       );
       setBricks(newBricks);
     },
-    [bricks, brickColor, setBricks]
+    [bricks, setBricks, brickData]
   );
 
   if (isOutOfBounds) {

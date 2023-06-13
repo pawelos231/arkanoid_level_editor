@@ -16,7 +16,7 @@ const LoadLevelModal = lazy(() => import("../loadLevelModal/loadLevel"));
 type Props = {
   changeRowsCount: (rows: number) => void;
   changeColumnCount: (columns: number) => void;
-  setBrick: (brick: string) => void;
+  setBrick: (brick: BrickData) => void;
   handleGridOpen: (gridState: boolean) => void;
   generateMap: (levelInfo: LevelInfo) => void;
   rows: number;
@@ -60,7 +60,7 @@ const Navbar = React.memo(
 
     const handleBrickChoose = useCallback(
       (brick: BrickData) => {
-        setBrick(brick.color);
+        setBrick(brick);
       },
       [setBrick]
     );

@@ -6,26 +6,50 @@ import {
   DEFAULT_ROWS_COUNT,
   DEFAULT_COLUMNS_COUNT,
 } from "./constants/defaultValues";
-import { LevelInfo, Level, Brick, BrickToLevelSave } from "./interfaces/Level";
+import {
+  LevelInfo,
+  Level,
+  Brick,
+  BrickToLevelSave,
+  BrickData,
+} from "./interfaces/Level";
 
 function App() {
   const [rowsCount, setRowsCount] = useState(DEFAULT_ROWS_COUNT);
   const [columnsCount, setColumnsCount] = useState(DEFAULT_COLUMNS_COUNT);
-  const [brickColor, setBrickColor] = useState("");
+  const [brickData, setBrickData] = useState<BrickData>();
   const [gridOpen, setGridOpen] = useState(true);
   const [bricks, setBricks] = useState<Brick[]>([]);
 
   const dependency = JSON.stringify(
-    bricks.map((item: Brick) => [item.color, item.rowNumber, item.columnNumber])
+    bricks.map((item: Brick) => [
+      item.color,
+      item.rowNumber,
+      item.columnNumber,
+      item.buffDropRate,
+      item.points,
+      item.timesToHit,
+    ])
   );
+  console.log(bricks);
 
   const filtered = useMemo(() => {
     return bricks.map((item: Brick) => {
-      const { color, rowNumber, columnNumber } = item;
+      const {
+        color,
+        rowNumber,
+        columnNumber,
+        buffDropRate,
+        points,
+        timesToHit,
+      } = item;
       const filteredObject: BrickToLevelSave = {
         color,
         rowNumber,
         columnNumber,
+        buffDropRate,
+        points,
+        timesToHit,
       };
       return filteredObject;
     });
@@ -58,14 +82,13 @@ function App() {
     setColumnsCount(columns);
   }, []);
 
-  const handleChangeBrickColor = useCallback((color: string) => {
-    setBrickColor(color);
+  const handleChangeBrickColor = useCallback((brickData: BrickData) => {
+    setBrickData(brickData);
   }, []);
 
   const handleToggleGrid = useCallback((isOpen: boolean) => {
     setGridOpen(isOpen);
   }, []);
-
   return (
     <div className="wrapper">
       <Navbar
@@ -83,7 +106,7 @@ function App() {
         setBricks={setBricks}
         columnsCount={columnsCount}
         rowsCount={rowsCount}
-        brickColor={brickColor}
+        brickData={brickData!}
         grid={gridOpen}
       />
     </div>

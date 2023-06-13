@@ -1,11 +1,11 @@
-import { Brick } from "../interfaces/Level";
+import { Brick, BrickData } from "../interfaces/Level";
 import { DEFAULT_BRICK_COLOR } from "../constants/defaultValues";
 
 export function handleCanvasClick(
   event: React.MouseEvent<HTMLCanvasElement, MouseEvent>,
   bricks: Brick[],
   canvas: HTMLCanvasElement,
-  brickColor: string
+  brickData: BrickData
 ): Brick[] {
   const canvasRect = canvas.getBoundingClientRect();
   const mouseX = event.clientX - canvasRect.left;
@@ -18,10 +18,24 @@ export function handleCanvasClick(
       mouseY >= brick.y &&
       mouseY <= brick.y + brick.height;
 
-    if (isBrick) {
-      brick.color = brick.color !== DEFAULT_BRICK_COLOR && (brickColor.length === 0 || brick.color === brickColor)
-        ? DEFAULT_BRICK_COLOR
-        : brickColor;
+    if (isBrick) {      
+      
+
+      const warunek = brick.color !== DEFAULT_BRICK_COLOR && (brickData.color.length === 0 || brick.color === brickData.color)
+
+
+      if(warunek) {
+        brick.color = DEFAULT_BRICK_COLOR
+        brick.buffDropRate = 0
+        brick.points = 0
+        brick.timesToHit = 0
+      } else {
+        brick.color = brickData.color
+        brick.buffDropRate = brickData.buffDropRate
+        brick.points = brickData.points
+        brick.timesToHit = brickData.timesToHit
+      }
+
     }
 
     return brick;
