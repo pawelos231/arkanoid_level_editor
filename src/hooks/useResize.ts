@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 type ResizeCallback = () => void;
 
@@ -16,10 +16,10 @@ const useResize = (pixelThreshold: number, callback: ResizeCallback): void => {
       }
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     return (): void => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, [pixelThreshold, callback, previousWidth]);
 };

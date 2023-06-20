@@ -17,3 +17,35 @@
     left: 20px;
     color: white;
 }
+
+.modal-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .modal-content {
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    padding: 60px 120px 60px 120px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+  }
+
+  .custom-file-upload {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #f1f1f1;
+    color: #333;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+   input[type="file"] {
+    display: none !important;
+  }

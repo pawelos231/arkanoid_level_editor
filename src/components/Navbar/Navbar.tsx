@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, Suspense, lazy } from "react";
 import { bricksData } from "../../helpers/brickData";
 import LoadingState from "./LoadingState";
 import "./navbar.css";
-import { LevelInfo, BrickData } from "../../interfaces/Level";
+import { LevelInfo, BrickData, Brick } from "../../interfaces/Level";
 import {
   MAX_COLUMNS_COUNT,
   MAX_ROWS_COUNT,
@@ -19,6 +19,7 @@ type Props = {
   setBrick: (brick: BrickData) => void;
   handleGridOpen: (gridState: boolean) => void;
   generateMap: (levelInfo: LevelInfo) => void;
+  setBricks: (bricks: Brick[]) => void;
   rows: number;
   grid: boolean;
   columns: number;
@@ -34,11 +35,14 @@ const Navbar = React.memo(
     handleGridOpen,
     generateMap,
     grid,
+    setBricks,
   }: Props) => {
     const [modalInfo, setModalInfo] = useState<boolean>(false);
     const [modalSaveLevel, setModalSaveLevel] = useState<boolean>(false);
     const [modalLoadLevel, setModalLoadLevel] = useState<boolean>(false);
     const [mounted, setMounted] = useState<boolean>(false);
+
+    console.log("render");
 
     useEffect(() => {
       setMounted(true);
@@ -97,7 +101,7 @@ const Navbar = React.memo(
     }, [handleBrickChoose]);
 
     if (!mounted) return null;
-
+    console.log("render");
     return (
       <nav className="navbar">
         <h1>Level Editor Menu</h1>
@@ -159,7 +163,12 @@ const Navbar = React.memo(
         )}
         {modalLoadLevel && (
           <Suspense fallback={<LoadingState />}>
-            <WrappedLoadLevelModal onClose={handleModalLoadLevel} />
+            <WrappedLoadLevelModal
+              changeRowsCount={changeRowsCount}
+              changeColumnCount={changeColumnCount}
+              setBricks={setBricks}
+              onClose={handleModalLoadLevel}
+            />
           </Suspense>
         )}
       </nav>

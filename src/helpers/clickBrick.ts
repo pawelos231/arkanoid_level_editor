@@ -18,24 +18,22 @@ export function handleCanvasClick(
       mouseY >= brick.y &&
       mouseY <= brick.y + brick.height;
 
-    if (isBrick) {      
-      
+    if (isBrick) {
+      const wr =
+        brick.color !== DEFAULT_BRICK_COLOR &&
+        (brickData.color.length === 0 || brick.color === brickData.color);
 
-      const warunek = brick.color !== DEFAULT_BRICK_COLOR && (brickData.color.length === 0 || brick.color === brickData.color)
-
-
-      if(warunek) {
-        brick.color = DEFAULT_BRICK_COLOR
-        brick.buffDropRate = 0
-        brick.points = 0
-        brick.timesToHit = 0
+      if (wr) {
+        brick.color = DEFAULT_BRICK_COLOR;
+        brick.buffDropRate = 0;
+        brick.points = 0;
+        brick.timesToHit = 0;
       } else {
-        brick.color = brickData.color
-        brick.buffDropRate = brickData.buffDropRate
-        brick.points = brickData.points
-        brick.timesToHit = brickData.timesToHit
+        brick.color = brickData.color;
+        brick.buffDropRate = brickData.buffDropRate;
+        brick.points = brickData.points;
+        brick.timesToHit = brickData.timesToHit;
       }
-
     }
 
     return brick;

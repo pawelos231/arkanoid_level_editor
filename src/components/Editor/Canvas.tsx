@@ -60,13 +60,14 @@ const Canvas = ({
     if (!context) return;
 
     const generatedBricks: Brick[] = generateBrickGrid(
-      canvas,
+      canvas.width,
+      canvas.height,
       columnsNumber,
       rowsNumber
     );
 
     setBricks(generatedBricks);
-    drawBricks(context, canvas, generatedBricks);
+    drawBricks(context, canvas, generatedBricks, rowsNumber, columnsNumber);
 
     setCanvasContext({ canvas, context });
   }, [rowsNumber, columnsNumber, isOutOfBounds, setBricks]);
@@ -74,22 +75,28 @@ const Canvas = ({
   useEffect(() => {
     const { context, canvas } = canvasContext;
     if (!context || !canvas) return;
-    drawBricks(context, canvas, bricks, grid);
-  }, [grid, canvasContext, bricks]);
+    drawBricks(context, canvas, bricks, rowsNumber, columnsNumber, grid);
+  }, [grid, canvasContext, bricks, columnsNumber, rowsNumber]);
 
-  useResize(10, () => {
+  useResize(8, () => {
     if (!canvasContext.canvas || !canvasContext.context) {
       throw new Error("canvas does not exist");
     }
-
     const resizedBricks: Brick[] = generateBrickGrid(
-      canvasContext.canvas,
+      canvasContext.canvas.width,
+      canvasContext.canvas.height,
       columnsNumber,
       rowsNumber,
       bricks.map((brick) => ({ ...brick }))
     );
     setBricks(resizedBricks);
-    drawBricks(canvasContext.context, canvasContext.canvas, resizedBricks);
+    drawBricks(
+      canvasContext.context,
+      canvasContext.canvas,
+      resizedBricks,
+      rowsNumber,
+      columnsNumber
+    );
   });
 
   const handleClick = useCallback(

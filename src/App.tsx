@@ -31,7 +31,6 @@ function App() {
       item.timesToHit,
     ])
   );
-  console.log(bricks);
 
   const filtered = useMemo(() => {
     return bricks.map((item: Brick) => {
@@ -89,6 +88,11 @@ function App() {
   const handleToggleGrid = useCallback((isOpen: boolean) => {
     setGridOpen(isOpen);
   }, []);
+
+  const handleSetBricks = useCallback((bricks: Brick[]) => {
+    setBricks(bricks);
+  }, []);
+
   return (
     <div className="wrapper">
       <Navbar
@@ -98,14 +102,16 @@ function App() {
         rows={rowsCount}
         columns={columnsCount}
         grid={gridOpen}
+        setBricks={handleSetBricks}
         setBrick={handleChangeBrickColor}
         handleGridOpen={handleToggleGrid}
       />
       <Editor
         bricks={bricks}
-        setBricks={setBricks}
+        setBricks={handleSetBricks}
         columnsCount={columnsCount}
         rowsCount={rowsCount}
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         brickData={brickData!}
         grid={gridOpen}
       />
