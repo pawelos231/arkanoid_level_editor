@@ -1,5 +1,5 @@
-import "./saveLevelModal.css";
-import { useRef, useCallback } from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { LevelInfo } from "../../interfaces/Level";
 import {
   DEFAULT_LEVEL_NAME,
@@ -7,67 +7,116 @@ import {
   DEFAULT_TIMER_VALUE,
   DEFAULT_LIVES_COUNT,
 } from "../../constants/defaultValues";
+import { LevelValidator, LevelCreationReq } from "../../validators/saveLevel";
+import "./saveLevelModal.css";
 
 type Props = {
   generateMap: (levelInfo: LevelInfo) => void;
+  apiResponse: string;
 };
 
-const SaveLevelModal = ({ generateMap }: Props) => {
-  const livesRef = useRef<HTMLInputElement>(null);
-  const timerRef = useRef<HTMLInputElement>(null);
-  const bossLevelRef = useRef<HTMLInputElement>(null);
-  const descriptionRef = useRef<HTMLTextAreaElement>(null);
-  const highScoreRef = useRef<HTMLInputElement>(null);
-  const requiredScoreRef = useRef<HTMLInputElement>(null);
-  const levelNameRef = useRef<HTMLInputElement>(null);
-
-  console.log("render");
-  const generateObjectForSave = useCallback((): LevelInfo => {
-    return {
+const SaveLevelModal = ({ generateMap, apiResponse }: Props) => {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<LevelCreationReq>({
+    resolver: yupResolver(LevelValidator),
+    defaultValues: {
       level: 2,
-      lives: livesRef.current?.valueAsNumber || DEFAULT_LIVES_COUNT,
-      timer: timerRef.current?.valueAsNumber || DEFAULT_TIMER_VALUE,
-      bossLevel: bossLevelRef.current?.checked || false,
-      description: descriptionRef.current?.value || DEFAULT_LEVEL_DESCRIPTION,
-      highScore: highScoreRef.current?.valueAsNumber || 0,
-      requiredScore: requiredScoreRef.current?.valueAsNumber || 0,
-      levelName: levelNameRef.current?.value || DEFAULT_LEVEL_NAME,
+      levelName: DEFAULT_LEVEL_NAME,
+      description: DEFAULT_LEVEL_DESCRIPTION,
+      lives: DEFAULT_LIVES_COUNT,
+      timer: DEFAULT_TIMER_VALUE,
+      bossLevel: false,
+      highScore: 0,
+      requiredScore: 50,
+    },
+  });
+
+  const generateObjectForSave = (): LevelInfo => {
+    console.log("sii");
+    return {
+      level: Math.floor(Math.random() * 10),
+      lives: watch("lives"),
+      timer: watch("timer"),
+      bossLevel: watch("bossLevel"),
+      description: watch("description"),
+      highScore: watch("highScore"),
+      requiredScore: watch("requiredScore"),
+      levelName: watch("levelName"),
     };
-  }, []);
+  };
+
+  const onSubmit = () => {
+    console.log("siema");
+    // Prevent the default form submission behavior
+    // and call the generateMap function with the generated level info
+    const levelInfo = generateObjectForSave();
+    generateMap(levelInfo);
+  };
 
   return (
     <div className="levelSet">
-      <form className="form">
-        <input type="text" placeholder="level name" ref={levelNameRef} />
-        <input type="number" placeholder="lives" ref={livesRef} />
-        <input type="text" placeholder="requiredScore" ref={requiredScoreRef} />
+      <div className="message">{apiResponse}</div>
+      <form onSubmit={handleSubmit(onSubmit)} className="form">
+        <input
+          type="text"
+          placeholder="Level Name"
+          {...register("levelName")}
+        />
+        {errors.levelName && (
+          <p className="error">{errors.levelName.message}</p>
+        )}
+
+        <input type="number" placeholder="Lives" {...register("lives")} />
+        {errors.lives && <p className="error">{errors.lives.message}</p>}
+
         <input
           type="number"
-          placeholder="timer / max 1 hour min 1 minute"
-          min={60}
-          max={3600}
-          ref={timerRef}
+          placeholder="Required Score"
+          {...register("requiredScore")}
         />
+        {errors.requiredScore && (
+          <p className="error">{errors.requiredScore.message}</p>
+        )}
+
+        <input
+          type="number"
+          placeholder="Timer / Max 1 hour, Min 1 minute"
+          {...register("timer")}
+        />
+        {errors.timer && <p className="error">{errors.timer.message}</p>}
+
         <textarea
           cols={30}
           rows={10}
-          placeholder="description"
-          ref={descriptionRef}
+          placeholder="Description"
+          {...register("description")}
         ></textarea>
+        {errors.description && (
+          <p className="error">{errors.description.message}</p>
+        )}
+
         <div className="boss">
           <label htmlFor="">Boss Level</label>
-          <input type="checkbox" placeholder="boss level" ref={bossLevelRef} />
+          <input
+            type="checkbox"
+            placeholder="Boss Level"
+            {...register("bossLevel")}
+          />
         </div>
+        <button
+          type="submit"
+          className="save-level"
+          disabled={apiResponse.length !== 0}
+        >
+          SAVE LEVEL
+        </button>
       </form>
-      <button
-        onClick={() => generateMap(generateObjectForSave())}
-        className="save-level"
-      >
-        SAVE LEVEL
-      </button>
     </div>
   );
 };
 
-// eslint-disable-next-line react-refresh/only-export-components
 export default SaveLevelModal;

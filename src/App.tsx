@@ -13,6 +13,7 @@ import {
   BrickToLevelSave,
   BrickData,
 } from "./interfaces/Level";
+import { SEND_LEVEL } from "./constants/APIendpoints";
 
 function App() {
   const [rowsCount, setRowsCount] = useState(DEFAULT_ROWS_COUNT);
@@ -20,6 +21,7 @@ function App() {
   const [brickData, setBrickData] = useState<BrickData>();
   const [gridOpen, setGridOpen] = useState(true);
   const [bricks, setBricks] = useState<Brick[]>([]);
+  const [apiResponse, setApiResponse] = useState<string>("");
 
   const dependency = JSON.stringify(
     bricks.map((item: Brick) => [
@@ -62,12 +64,12 @@ function App() {
         numberOfColumns: columnsCount,
         brickArray: filtered,
       };
-      await fetch("http://localhost:3002/sendLevelData", {
+      await fetch(SEND_LEVEL, {
         method: "POST",
         body: JSON.stringify(levelMap),
       })
         .then((res) => res.json())
-        .then((data) => console.log(data));
+        .then((data) => setApiResponse(data as string));
       return levelMap;
     },
     [columnsCount, rowsCount, filtered]
@@ -105,6 +107,7 @@ function App() {
         setBricks={handleSetBricks}
         setBrick={handleChangeBrickColor}
         handleGridOpen={handleToggleGrid}
+        apiResponse={apiResponse}
       />
       <Editor
         bricks={bricks}

@@ -23,6 +23,7 @@ type Props = {
   rows: number;
   grid: boolean;
   columns: number;
+  apiResponse: string;
 };
 
 const Navbar = React.memo(
@@ -35,6 +36,7 @@ const Navbar = React.memo(
     handleGridOpen,
     generateMap,
     grid,
+    apiResponse,
     setBricks,
   }: Props) => {
     const [modalInfo, setModalInfo] = useState<boolean>(false);
@@ -137,7 +139,7 @@ const Navbar = React.memo(
               Save Progress
             </button>
             <button className="wczytaj" onClick={() => handleModalLoadLevel()}>
-              Wczytaj Progress
+              Load Progress
             </button>
           </div>
         </div>
@@ -156,6 +158,7 @@ const Navbar = React.memo(
         {modalSaveLevel && (
           <Suspense fallback={<LoadingState />}>
             <WrappedSaveLevelModal
+              apiResponse={apiResponse}
               onClose={handleModalSaveLevel}
               generateMap={generateMap}
             />
