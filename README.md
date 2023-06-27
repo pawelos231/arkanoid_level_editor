@@ -1,16 +1,16 @@
 # Level editor
 
-The Arkanoid level editor at your disposal empowers you to craft novel levels while granting you the flexibility to fine-tune the number of rows and columns within them. It is imperative, however, to take note of the fact that modifying the aforementioned parameters triggers an automatic clearance of the canvas, eradicating any preexisting content.
+You have the amazing Arkanoid level editor at your disposal! It lets you create brand new levels and gives you the flexibility to adjust the number of rows and columns in them. But be aware that if you modify these parameters, the canvas will be cleared, removing any existing content.
 
-Within this level editor, a diverse palette of eight brick colors is at your disposal, with each hue boasting distinctive properties. This selection allows for the creation of visually captivating and strategically diverse levels.
+The level editor offers a wide range of eight different brick colors, each with its own unique properties. This diverse palette allows you to design visually stunning and strategically diverse levels.
 
-Should you desire to utilize previously created data, the "load progress" feature, conveniently located in the navigation bar, facilitates the seamless retrieval of such content. It is important to emphasize that only file texts adhering to specific conditions, which deem them valid levels, can be successfully loaded into the editor.
+If you want to use previously saved data, you can easily load your progress using the "load progress" feature located in the navigation bar. However, please note that only file texts that meet specific conditions and are considered valid levels can be successfully loaded into the editor.
 
-Once a level has been meticulously crafted and you elect to save it, the level is promptly transmitted to the backend of the Arkanoid game. This process ensures instantaneous visibility of your creation, as it manifests itself as a playable level within the game.
+Once you've carefully crafted a level and decide to save it, the level will be promptly sent to the backend of the Arkanoid game. This ensures that your creation becomes a playable level in the game, immediately visible for everyone to enjoy.
 
-While fostering your creative endeavors, it is crucial to bear in mind that the maximum permissible number of rows is restricted to 10, while the column count is limited to 20. Adhering to these boundaries ensures optimal gameplay and level design.
+While unleashing your creativity, keep in mind that the maximum number of rows allowed is 10, and the column count is limited to 20. Sticking to these boundaries ensures optimal gameplay and level design.
 
-Presented below is a map inspired by the widely popular "Amogus" game, serving as an illustrative example of the possibilities that await:
+Now, let's take a look at an example map inspired by the popular game "Among Us." This map will give you a glimpse of the exciting possibilities that await you in the Arkanoid level editor!
 
 ![Amogus](./src/images/amogus.png)
 
