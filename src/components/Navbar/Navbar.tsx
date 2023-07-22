@@ -44,12 +44,10 @@ const Navbar = React.memo(
     const [modalLoadLevel, setModalLoadLevel] = useState<boolean>(false);
     const [mounted, setMounted] = useState<boolean>(false);
 
-    console.log("render");
-
     useEffect(() => {
       setMounted(true);
     }, []);
-    console.log("render");
+
     const handleColumnCountInputChange = (
       event: React.ChangeEvent<HTMLInputElement>
     ) => {
@@ -103,7 +101,6 @@ const Navbar = React.memo(
     }, [handleBrickChoose]);
 
     if (!mounted) return null;
-    console.log("render");
     return (
       <nav className="navbar">
         <h1>Level Editor Menu</h1>
@@ -114,6 +111,7 @@ const Navbar = React.memo(
               type="number"
               value={columns}
               onChange={handleColumnCountInputChange}
+              min={2}
               max={MAX_COLUMNS_COUNT}
             />
           </div>
@@ -123,6 +121,7 @@ const Navbar = React.memo(
               type="number"
               value={rows}
               onChange={handleRowCountInputChange}
+              min={1}
               max={MAX_ROWS_COUNT}
             />
           </div>

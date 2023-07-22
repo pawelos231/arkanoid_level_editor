@@ -36,7 +36,6 @@ const SaveLevelModal = ({ generateMap, apiResponse }: Props) => {
   });
 
   const generateObjectForSave = (): LevelInfo => {
-    console.log("sii");
     return {
       level: Math.floor(Math.random() * 10),
       lives: watch("lives"),
@@ -50,7 +49,6 @@ const SaveLevelModal = ({ generateMap, apiResponse }: Props) => {
   };
 
   const onSubmit = () => {
-    console.log("siema");
     // Prevent the default form submission behavior
     // and call the generateMap function with the generated level info
     const levelInfo = generateObjectForSave();
