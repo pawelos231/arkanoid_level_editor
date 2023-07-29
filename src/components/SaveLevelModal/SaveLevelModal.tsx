@@ -49,8 +49,6 @@ const SaveLevelModal = ({ generateMap, apiResponse }: Props) => {
   };
 
   const onSubmit = () => {
-    // Prevent the default form submission behavior
-    // and call the generateMap function with the generated level info
     const levelInfo = generateObjectForSave();
     generateMap(levelInfo);
   };

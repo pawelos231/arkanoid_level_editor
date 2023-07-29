@@ -17,8 +17,8 @@ interface CanvasProps {
   columnsNumber: number;
   brickData: BrickData;
   grid: boolean;
-  setBricks: (bricks: Brick[]) => void;
   bricks: Brick[];
+  setBricks: (bricks: Brick[]) => void;
 }
 
 interface CanvasContextState {
@@ -46,7 +46,7 @@ const Canvas = ({
     rowsNumber > MAX_ROWS_COUNT ||
     columnsNumber > MAX_COLUMNS_COUNT ||
     rowsNumber <= 0 ||
-    columnsNumber <= 0;
+    columnsNumber <= 1;
 
   useEffect(() => {
     if (isOutOfBounds) {

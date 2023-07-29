@@ -3,6 +3,7 @@
     flex-direction: column;
     background-color: #03001C;
     flex-basis: 20%;
+    height: 100vh;
     justify-self: center;
     align-items: center;
     gap: 20px;
